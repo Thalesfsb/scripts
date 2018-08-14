@@ -10,4 +10,7 @@
 			Nome	varchar(50) not null,
 		)
 
+		INSERT INTO ChamadoTipo(Id, Nome) VALUES(1, 'Erro')
+		INSERT INTO ChamadoTipo(Id, Nome) VALUES(2, 'Solicitação')
+
 	ROLLBACK --COMMIT

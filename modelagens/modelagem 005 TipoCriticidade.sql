@@ -10,5 +10,9 @@
 			Nome	varchar(50) not null,
 		)
 
+		INSERT INTO TipoCriticidade(Id, Nome) VALUES(1, 'Alto')
+		INSERT INTO TipoCriticidade(Id, Nome) VALUES(2, 'Médio')
+		INSERT INTO TipoCriticidade(Id, Nome) VALUES(3, 'Baixo')
+
 	ROLLBACK --COMMIT
 	
