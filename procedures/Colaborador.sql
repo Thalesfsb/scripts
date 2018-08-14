@@ -8,6 +8,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsColaborador]
 	@Nome						varchar(30),
 	@Sobrenome					varchar(30),
 	@Email						varchar(100),
+	@UserName					varchar(50),
 	@Senha						varchar(20),
 	@IdTipoColaborador			tinyint,
 	@IdColaboradorCadastro		int, 
@@ -18,7 +19,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsColaborador]
 	/*
 	Documentação
 	Arquivo Fonte.....: Colaborador.sql
-	Objetivo..........: Inserir os dados cadastrais de um colaborador
+	Objetivo..........: Inserir os dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
 	Ex................: EXEC [dbo].[GKSSP_InsColaborador]
@@ -31,6 +32,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsColaborador]
 								 Nome,
 								 Sobrenome,
 								 Email,
+								 UserName,
 								 Senha,
 								 IdTipoColaborador,
 								 IdColaboradorCadastro,
@@ -40,6 +42,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsColaborador]
 								 @Nome,
 								 @Sobrenome,
 								 @Email,
+								 @UserName,
 								 @Senha,
 								 @IdTipoColaborador,
 								 @IdColaboradorCadastro,
@@ -61,7 +64,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaborador]
 	/*
 	Documentação
 	Arquivo Fonte.....: Colaborador.sql
-	Objetivo..........: Buscar dados de um colaborador
+	Objetivo..........: Buscar dados colaborador
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
 	Ex................: EXEC [dbo].[GKSSP_SelColaborador]
@@ -74,6 +77,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaborador]
 			  Nome,
 			  Sobrenome,
 			  Email,
+			  UserName,
 			  IdTipoColaborador,
 			  IdColaboradorCadastro,
 			  DataCadastro
@@ -95,7 +99,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaboradores]
 	/*
 	Documentação
 	Arquivo Fonte.....: Colaborador.sql
-	Objetivo..........: buscar os dados dos calaboradores
+	Objetivo..........: Buscar dados colaboradores
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
 	Ex................: EXEC [dbo].[GKSSP_SelColaboradores]
@@ -108,11 +112,83 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaboradores]
 			   Nome,
 			   Sobrenome,
 			   Email,
-			   
-
-		FROM Colaborador
-		
+			   UserName  
+		FROM Colaborador WITH(NOLOCK)		
 
 	END
 GO
-						
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_UpdColaborador]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[GKSSP_UpdColaborador]
+GO
+
+CREATE PROCEDURE [dbo].[GKSSP_UpdColaborador]
+	@Cpf						decimal(14,0),
+	@Nome						varchar(30),
+	@Sobrenome					varchar(30),
+	@Email						varchar(100),
+	@UserName					varchar(50),
+	@Senha						varchar(20),
+	@IdTipoColaborador			tinyint,
+	@IdColaboradoAlteracao		int, 
+	@DataAlteracao				dateTime
+
+	AS
+
+	/*
+	Documentação
+	Arquivo Fonte.....: Colaborador.sql
+	Objetivo..........: Atualizar dados
+	Autor.............: SMN - Thales Silveira
+ 	Data..............: 14/08/2018
+	Ex................: EXEC [dbo].[GKSSP_UpdColaborador]
+
+	*/
+
+	BEGIN
+		
+		UPDATE Colaborador
+			SET Cpf = @Cpf,
+				Nome = @Nome,
+				Sobrenome = @Sobrenome,
+				Email = @Email,
+				UserName = @UserName,
+				Senha = @Senha,
+				IdTipoColaborador = @IdTipoColaborador,
+				IdColaboradorAlteracao = @IdColaboradoAlteracao,
+				DataAlteracao = GETDATE()
+			WHERE Cpf = @Cpf		
+
+	END
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_DelColaborador]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[GKSSP_DelColaborador]
+GO
+
+CREATE PROCEDURE [dbo].[GKSSP_DelColaborador]
+	@Cpf	decimal(14,0)
+
+	AS
+
+	/*
+	Documentação
+	Arquivo Fonte.....: Colaborador.sql
+	Objetivo..........: Inativar colaborador
+	Autor.............: SMN - Thales Silveira
+ 	Data..............: 14/08/2018
+	Ex................: EXEC [dbo].[GKSSP_DelColaborador]
+
+	*/
+
+	BEGIN
+	
+		UPDATE Colaborador
+			SET DataInativacao = GETDATE()
+			WHERE Cpf = @Cpf
+			
+	END
+GO
+				
+				
+				

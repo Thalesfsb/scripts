@@ -24,6 +24,4 @@
 		FOREIGN KEY (IdColaboradorAlteracao ) REFERENCES Colaborador(Id)
 
 	ROLLBACK --COMMIT
-
 	
-		

@@ -7,7 +7,7 @@
 
 		CREATE TABLE Colaborador(
 			Id							int primary key identity(1,1),
-			Cpf							decimal(14,0) unique  not null,
+			Cpf							decimal(11,0) unique  not null,
 			Nome						varchar(30) not null,
 			Sobrenome					varchar(30) not null,
 			Email						varchar(100) not null,

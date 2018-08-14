@@ -7,6 +7,7 @@
 
 		CREATE TABLE Cliente(
 			Id						int primary key identity(1,1) not null,
+			Cpf						decimal(11,0) unique not null,
 			Nome					varchar(30) not null,		
 			Sobrenome				varchar(30) not null,
 			Email					varchar(100) not null,
