@@ -10,6 +10,7 @@
 			Nome					varchar(30) not null,		
 			Sobrenome				varchar(30) not null,
 			Email					varchar(100) not null,
+			UserName				varchar(50) not null,
 			Senha					varchar(20) not null,
 			IdEmpresa				int not null,			
 			IdColaboradorCadastro	int not null, 
