@@ -61,12 +61,19 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresa]
 	BEGIN
 		
 		SELECT 
-			Cnpj,
-			RazaoSocial,
-			NomeFantasia,
-			IdColaboradorCadastro,
-			DataCadastro
-		FROM Empresa WITH(NOLOCK)
+			em.Cnpj,
+			em.RazaoSocial,
+			em.NomeFantasia,
+			colcad.Nome,
+			colalt.Nome,
+			em.DataCadastro,
+			em.DataAlteracao,
+			em.DataInativacao			
+		FROM Empresa em WITH(NOLOCK)
+			INNER JOIN Colaborador colcad WITH(NOLOCK)
+				ON colcad.IdColaboradorCadastro = em.IdColaboradorCadastro
+			LEFT JOIN Colaborador colalt WITH(NOLOCK)
+				ON colalt.IdColaboradorAlteracao = em.IdColaboradorAlteracao
 		WHERE Cnpj = @Cnpj
 
 	END
@@ -93,9 +100,19 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresas]
 	BEGIN
 	
 		SELECT 
-			Cnpj,
-			RazaoSocial
-		FROM Empresa
+			em.Cnpj,
+			em.RazaoSocial,
+			em.NomeFantasia,
+			colcad.Nome,
+			colalt.Nome,
+			em.DataCadastro,
+			em.DataAlteracao,
+			em.DataInativacao			
+		FROM Empresa em WITH(NOLOCK)
+			INNER JOIN Colaborador colcad WITH(NOLOCK)
+				ON colcad.IdColaboradorCadastro = em.IdColaboradorCadastro
+			LEFT JOIN Colaborador colalt WITH(NOLOCK)
+				ON colalt.IdColaboradorAlteracao = em.IdColaboradorAlteracao
 
 	END
 GO

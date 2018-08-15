@@ -11,8 +11,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsColaborador]
 	@UserName					varchar(50),
 	@Senha						varchar(20),
 	@IdTipoColaborador			tinyint,
-	@IdColaboradorCadastro		int, 
-	@DataCadastro				dateTime
+	@IdColaboradorCadastro		int
 
 	AS
 
@@ -68,7 +67,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaborador]
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
 	Ex................: EXEC [dbo].[GKSSP_SelColaborador]
-
+	OBERSERVAO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	*/
 
 	BEGIN
@@ -103,7 +102,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaboradores]
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
 	Ex................: EXEC [dbo].[GKSSP_SelColaboradores]
-
+	OBERSERVAO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	*/
 
 	BEGIN
@@ -130,8 +129,7 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdColaborador]
 	@UserName					varchar(50),
 	@Senha						varchar(20),
 	@IdTipoColaborador			tinyint,
-	@IdColaboradoAlteracao		int, 
-	@DataAlteracao				dateTime
+	@IdColaboradoAlteracao		int
 
 	AS
 

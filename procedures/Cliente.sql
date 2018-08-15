@@ -11,8 +11,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsCliente]
 	@UserName				varchar(50),
 	@Senha					varchar(20),
 	@IdEmpresa				int,			
-	@IdColaboradorCadastro	int, 
-	@DataCadastro			dateTime 
+	@IdColaboradorCadastro	int
 
 	AS
 
@@ -73,15 +72,25 @@ CREATE PROCEDURE [dbo].[GKSSP_SelCliente]
 	BEGIN
 		
 		SELECT 
-			Cpf,
-			Nome,
-			Sobrenome,
-			Email,
-			UserName,
-			IdColaboradorCadastro,
-			DataCadastro
-		FROM Cliente WITH(NOLOCK)
-		WHERE Cpf = @Cpf
+			cl.Cpf,
+			em.RazaoSocial AS Empresa,
+			cl.Nome,
+			cl.Sobrenome,
+			cl.Email,
+			cl.UserName,
+			cl.DataCadastro,
+			colcad.Nome AS ColaboradorCad,
+			cl.DataAlteracao,
+			colalt.Nome AS ColaboradorAlt,
+			cl.DataInativacao
+		FROM Cliente cl WITH(NOLOCK)
+			INNER JOIN Empresa em WITH(NOLOCK)
+				ON em.Id = cl.IdEmpresa
+			INNER JOIN Colaborador colcad WITH(NOLOCK)
+				ON colcad.IdColaboradorCadastro = cl.IdColaboradorCadastro
+			LEFT JOIN Colaborador colalt WITH(NOLOCK)
+				ON colalt.IdColaboradorAlteracao = cl.IdColaboradorAlteracao
+		WHERE cl.Cpf = @Cpf
 
 	END
 GO
@@ -107,15 +116,94 @@ CREATE PROCEDURE [dbo].[GKSSP_SelClientes]
 	BEGIN
 	
 		SELECT 
-			Cpf,
-			Nome,
-			Sobrenome,
-			IdEmpresa,
-			Email,
-			UserName,
-			IdColaboradorCadastro,
-			DataCadastro
-		FROM Cliente WITH(NOLOCK)
+			cl.Cpf,
+			em.RazaoSocial AS Empresa,
+			cl.Nome,
+			cl.Sobrenome,
+			cl.Email,
+			cl.UserName,
+			cl.DataCadastro,
+			colcad.Nome AS ColaboradorCad,
+			cl.DataAlteracao,
+			colalt.Nome AS ColaboradorAlt,
+			cl.DataInativacao
+		FROM Cliente cl WITH(NOLOCK)
+			INNER JOIN Empresa em WITH(NOLOCK)
+				ON em.Id = cl.IdEmpresa
+			INNER JOIN Colaborador colcad WITH(NOLOCK)
+				ON colcad.IdColaboradorCadastro = cl.IdColaboradorCadastro
+			LEFT JOIN Colaborador colalt WITH(NOLOCK)
+				ON colalt.IdColaboradorAlteracao = cl.IdColaboradorAlteracao
+
+	END
+GO
+				
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_UpdCliente]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[GKSSP_UpdCliente]
+GO
+
+CREATE PROCEDURE [dbo].[GKSSP_UpdCliente]
+	@Cpf						decimal(11,0),
+	@Nome						varchar(30),		
+	@Sobrenome					varchar(30),
+	@Email						varchar(100),
+	@UserName					varchar(50),
+	@Senha						varchar(20),
+	@IdEmpresa					int,			
+	@IdColaboradorAlteracao		int
+
+	AS
+
+	/*
+	Documentação
+	Arquivo Fonte.....: Cliente.sql
+	Objetivo..........: Atualizar dados
+	Autor.............: SMN - Thales Silveira
+ 	Data..............: 15/08/2018
+	Ex................: EXEC [dbo].[GKSSP_UpdCliente]
+
+	*/
+
+	BEGIN
+	
+		UPDATE Cliente
+			SET Cpf = @Cpf,
+				Nome = @Nome,
+				Sobrenome = @Sobrenome,
+				Email = @Email,
+				UserName = @UserName,
+				Senha = @Senha,
+				IdEmpresa = @IdEmpresa,
+				IdColaboradorAlteracao = @IdColaboradorAlteracao,
+				DataAlteracao = GETDATE()
+			WHERE Cpf = @Cpf
+
+	END
+GO
+				
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_DelCliente]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[GKSSP_DelCliente]
+GO
+
+CREATE PROCEDURE [dbo].[GKSSP_DelCliente]
+	@Cpf decimal(11,0)
+	AS
+
+	/*
+	Documentação
+	Arquivo Fonte.....: Cliente.sql
+	Objetivo..........: Inativa cliente
+	Autor.............: SMN - Thales Silveira
+ 	Data..............: 15/08/2018
+	Ex................: EXEC [dbo].[GKSSP_DelCliente]
+
+	*/
+
+	BEGIN
+		
+		UPDATE Cliente
+			SET DataInativacao = GETDATE()
+			WHERE Cpf = @Cpf
 
 	END
 GO
