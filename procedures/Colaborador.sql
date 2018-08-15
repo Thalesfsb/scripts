@@ -27,25 +27,8 @@ CREATE PROCEDURE [dbo].[GKSSP_InsColaborador]
 
 	BEGIN
 		
-		INSERT INTO Colaborador	(Cpf,
-								 Nome,
-								 Sobrenome,
-								 Email,
-								 UserName,
-								 Senha,
-								 IdTipoColaborador,
-								 IdColaboradorCadastro,
-								 DataCadastrO)
-
-		VALUES					(@Cpf,
-								 @Nome,
-								 @Sobrenome,
-								 @Email,
-								 @UserName,
-								 @Senha,
-								 @IdTipoColaborador,
-								 @IdColaboradorCadastro,
-								 GETDATE())		
+		INSERT INTO Colaborador	(Cpf, Nome, Sobrenome, Email, UserName, Senha, IdTipoColaborador, IdColaboradorCadastro, DataCadastrO)
+			VALUES (@Cpf, @Nome, @Sobrenome, @Email, @UserName, @Senha, @IdTipoColaborador, @IdColaboradorCadastro, GETDATE())		
 
 	END
 GO
@@ -80,8 +63,8 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaborador]
 			  IdTipoColaborador,
 			  IdColaboradorCadastro,
 			  DataCadastro
-		FROM Colaborador WITH(NOLOCK)
-		WHERE Cpf = @Cpf
+			FROM Colaborador WITH(NOLOCK)
+			WHERE Cpf = @Cpf
 		
 
 	END
@@ -112,7 +95,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaboradores]
 			   Sobrenome,
 			   Email,
 			   UserName  
-		FROM Colaborador WITH(NOLOCK)		
+			FROM Colaborador WITH(NOLOCK)		
 
 	END
 GO

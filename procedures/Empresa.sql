@@ -24,17 +24,8 @@ CREATE PROCEDURE [dbo].[GKSSP_InsEmpresa]
 
 	BEGIN
 		
-		INSERT INTO Empresa (Cnpj,
-							 RazaoSocial,
-							 NomeFantasia,
-							 IdColaboradorCadastro,
-							 DataCadastro)
-
-		VALUES			    (@Cnpj,
-							 @RazaoSocial,
-							 @NomeFantasia,
-							 @IdColaboradorCadastro,
-							 GETDATE())		
+		INSERT INTO Empresa (Cnpj, RazaoSocial, NomeFantasia, IdColaboradorCadastro, DataCadastro)
+			VALUES (@Cnpj, @RazaoSocial, @NomeFantasia, @IdColaboradorCadastro, GETDATE())		
 
 	END
 GO
@@ -60,21 +51,20 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresa]
 
 	BEGIN
 		
-		SELECT 
-			em.Cnpj,
-			em.RazaoSocial,
-			em.NomeFantasia,
-			colcad.Nome,
-			colalt.Nome,
-			em.DataCadastro,
-			em.DataAlteracao,
-			em.DataInativacao			
-		FROM Empresa em WITH(NOLOCK)
-			INNER JOIN Colaborador colcad WITH(NOLOCK)
-				ON colcad.IdColaboradorCadastro = em.IdColaboradorCadastro
-			LEFT JOIN Colaborador colalt WITH(NOLOCK)
-				ON colalt.IdColaboradorAlteracao = em.IdColaboradorAlteracao
-		WHERE Cnpj = @Cnpj
+		SELECT em.Cnpj,
+			   em.RazaoSocial,
+			   em.NomeFantasia,
+			   colcad.Nome,
+			   colalt.Nome,
+			   em.DataCadastro,
+			   em.DataAlteracao,
+			   em.DataInativacao			
+			FROM Empresa em WITH(NOLOCK)
+				INNER JOIN Colaborador colcad WITH(NOLOCK)
+					ON colcad.IdColaboradorCadastro = em.IdColaboradorCadastro
+				LEFT JOIN Colaborador colalt WITH(NOLOCK)
+					ON colalt.IdColaboradorAlteracao = em.IdColaboradorAlteracao
+			WHERE Cnpj = @Cnpj
 
 	END
 GO
@@ -99,20 +89,21 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresas]
 
 	BEGIN
 	
-		SELECT 
-			em.Cnpj,
-			em.RazaoSocial,
-			em.NomeFantasia,
-			colcad.Nome,
-			colalt.Nome,
-			em.DataCadastro,
-			em.DataAlteracao,
-			em.DataInativacao			
-		FROM Empresa em WITH(NOLOCK)
-			INNER JOIN Colaborador colcad WITH(NOLOCK)
-				ON colcad.IdColaboradorCadastro = em.IdColaboradorCadastro
-			LEFT JOIN Colaborador colalt WITH(NOLOCK)
-				ON colalt.IdColaboradorAlteracao = em.IdColaboradorAlteracao
+		SELECT em.Cnpj,
+			   em.RazaoSocial,
+			   em.NomeFantasia,
+			   colcad.Nome,
+			   colcad.Sobrenome,
+			   colalt.Nome,
+			   colalt.Sobrenome,
+			   em.DataCadastro,
+			   em.DataAlteracao,
+			   em.DataInativacao			
+			FROM Empresa em WITH(NOLOCK)
+				INNER JOIN Colaborador colcad WITH(NOLOCK)
+					ON colcad.IdColaboradorCadastro = em.IdColaboradorCadastro
+				LEFT JOIN Colaborador colalt WITH(NOLOCK)
+					ON colalt.IdColaboradorAlteracao = em.IdColaboradorAlteracao
 
 	END
 GO

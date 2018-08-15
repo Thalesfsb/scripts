@@ -25,21 +25,8 @@ CREATE PROCEDURE [dbo].[GKSSP_InsChamado]
 
 	BEGIN
 	
-		INSERT INTO Chamado (Nome,
-							 Descricao,
-							 IdCriticidade,
-							 IdTipo,
-							 IdStatus,
-							 IdClienteCadastro,
-							 DataCadastro)
-
-		VALUES				(@Nome,
-							 @Descricao,
-							 @IdCriticidade,
-							 @IdTipo,
-							 @IdStatus,
-							 @IdClienteCadastro,
-							 GETDATE())
+		INSERT INTO Chamado (Nome, Descricao, IdCriticidade, IdTipo, IdStatus, IdClienteCadastro, DataCadastro)
+			VALUES (@Nome, @Descricao, @IdCriticidade, @IdTipo, @IdStatus, @IdClienteCadastro, GETDATE())
 
 	END
 GO
@@ -56,7 +43,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamado]
 	/*
 	Documentação
 	Arquivo Fonte.....: Chamado.sql
-	Objetivo..........: Buscar chamado
+	Objetivo..........: Buscar os dados de um chamado
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
 	Ex................: EXEC [dbo].[GKSSP_SelChamado]
@@ -64,39 +51,15 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamado]
 	*/
 
 	BEGIN
-		
-		SELECT
-		     c.Id AS Chamado, 
-		     em.RazaoSocial AS Empresa,
-		     ccad.Nome AS Solicitante,
-		     c.Nome AS Problema,
-		     cri.Nome AS Criticidade,
-		     col.Nome AS Atendimento,
-		     c.Descricao,
-		     c.DataCadastro,
-		     ct.Nome AS TipoChamado,
-		     ts.Nome AS TipoStatus,
-		     c.DataAlteracao,
-		     calt.Nome AS SolicitanteAlt
-			
-		FROM Chamado c WITH(NOLOCK)
-			INNER JOIN TipoCriticidade cri WITH(NOLOCK)
-				ON cri.Id = c.IdCriticidade 
-			INNER JOIN ChamadoTipo ct WITH(NOLOCK)
-				ON ct.Id = c.IdTipo
-			INNER JOIN ChamadoTipoStatus ts WITH(NOLOCK)
-				ON ts.Id = c.IdStatus
-			INNER JOIN Cliente ccad WITH(NOLOCK)
-				ON ccad.Id = c.IdClienteCadastro
-			LEFT JOIN Cliente calt WITH(NOLOCK)
-				ON calt.Id = c.IdClienteAlteracao
-			INNER JOIN Empresa em WITH(NOLOCK)
-				ON em.Id = ccad.IdEmpresa
-			INNER JOIN ColaboradorChamado colc WITH(NOLOCK)
-				ON colc.IdChamado = c.Id
-			INNER JOIN Colaborador col WITH(NOLOCK)
-				ON col.Id = colc.IdColaborador
-		WHERE c.Id = @Id
+		SELECT   c.Descricao,				
+				 cri.Nome AS Criticidade,
+				 ts.Nome AS TipoStatus
+			FROM Chamado c WITH(NOLOCK)
+				INNER JOIN TipoCriticidade cri WITH(NOLOCK)
+					ON cri.Id = c.IdCriticidade 
+				INNER JOIN ChamadoTipoStatus ts WITH(NOLOCK)
+					ON ts.Id = c.IdStatus				
+			WHERE c.Id = @Id
 
 	END
 GO
@@ -121,37 +84,30 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamados]
 
 	BEGIN
 	
-		SELECT
-			 c.Id AS Chamado, 
-			 em.RazaoSocial AS Empresa,
-			 cc.Nome AS Solicitante,
-			 c.Nome AS Problema,
-			 cri.Nome AS Criticidade,
-			 col.Nome AS Atendimento,
-			 c.Descricao,
-			 c.DataCadastro,
-			 ct.Nome AS TipoChamado,
-			 ts.Nome AS TipoStatus,
-			 c.DataAlteracao,
-			 ca.Nome AS SolicitanteAlt
-			
-		FROM Chamado c WITH(NOLOCK)
-			INNER JOIN TipoCriticidade cri WITH(NOLOCK)
-				ON cri.Id = c.IdCriticidade 
-			INNER JOIN ChamadoTipo ct WITH(NOLOCK)
-				ON ct.Id = c.IdTipo
-			INNER JOIN ChamadoTipoStatus ts WITH(NOLOCK)
-				ON ts.Id = c.IdStatus
-			INNER JOIN Cliente cc WITH(NOLOCK)
-				ON cc.Id = c.IdClienteCadastro
-			LEFT JOIN Cliente ca WITH(NOLOCK)
-				ON ca.Id = c.IdClienteAlteracao
-			INNER JOIN Empresa em WITH(NOLOCK)
-				ON em.Id = cc.IdEmpresa
-			INNER JOIN ColaboradorChamado colc WITH(NOLOCK)
-				ON colc.IdChamado = c.Id
-			INNER JOIN Colaborador col WITH(NOLOCK)
-				ON col.Id = colc.IdColaborador
+		SELECT  c.Id AS Chamado, 
+				em.RazaoSocial AS Empresa,
+				ccad.Nome AS Solicitante,
+				c.Nome AS Problema,
+				cri.Nome AS Criticidade,
+				col.Nome AS Atendimento,
+				ts.Nome AS TipoStatus,
+				calt.Nome AS SolicitanteAlt,
+				calt.Sobrenome			
+			FROM Chamado c WITH(NOLOCK)
+				INNER JOIN TipoCriticidade cri WITH(NOLOCK)
+					ON cri.Id = c.IdCriticidade 
+				INNER JOIN ChamadoTipoStatus ts WITH(NOLOCK)
+					ON ts.Id = c.IdStatus
+				INNER JOIN Cliente ccad WITH(NOLOCK)
+					ON ccad.Id = c.IdClienteCadastro
+				LEFT JOIN Cliente calt WITH(NOLOCK)
+					ON calt.Id = c.IdClienteAlteracao
+				INNER JOIN Empresa em WITH(NOLOCK)
+					ON em.Id = ccad.IdEmpresa
+				INNER JOIN ColaboradorChamado colc WITH(NOLOCK)
+					ON colc.IdChamado = c.Id
+				INNER JOIN Colaborador col WITH(NOLOCK)
+					ON col.Id = colc.IdColaborador
 
 	END
 GO
