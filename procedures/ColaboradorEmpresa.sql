@@ -4,8 +4,9 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_InsC
 GO
 
 CREATE PROCEDURE [dbo].[GKSSP_InsColaboradorEmpresa]
-	@IdColaborador  int, 
-	@IdEmpresa		int
+	@IdEmpresa		int,
+	@IdColaborador  int 
+	
 	AS
 
 	/*
@@ -14,7 +15,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsColaboradorEmpresa]
 	Objetivo..........: Inserir dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 16/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsColaboradorEmpresa] 1, 2
+	Ex................: EXEC [dbo].[GKSSP_InsColaboradorEmpresa]
 
 	*/
 

@@ -20,7 +20,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsColaborador]
 	Objetivo..........: Inserir os dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsColaborador] 11826065639, 'Douglas DuMato', 'dumatocv@smn.com.br', 'dumatocv', '123', 2, 1
+	Ex................: EXEC [dbo].[GKSSP_InsColaborador] 
 
 	*/
 
@@ -48,24 +48,30 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaborador]
 	Objetivo..........: Buscar dados colaborador
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelColaborador] 11826065636
+	Ex................: EXEC [dbo].[GKSSP_SelColaborador] 
 
 	*/
 
 	BEGIN
 	   
-	   SELECT Cpf,
-			  Nome,
-			  Email,
-			  Logon,
-			  IdTipoColaborador,
-			  IdColaboradorCadastro,
-			  DataCadastro,
-			  IdColaboradorAlteracao,
-			  DataAlteracao,
-			  DataInativacao
-			FROM Colaborador WITH(NOLOCK)
-			WHERE Cpf = @Cpf
+	   SELECT c.Cpf,
+			  c.Nome,
+			  c.Email,
+			  c.Logon,
+			  c.IdTipoColaborador,
+			  c.IdColaboradorCadastro,
+			  co.Nome,
+			  c.DataCadastro,
+			  c.IdColaboradorAlteracao,
+			  col.Nome,
+			  c.DataAlteracao,
+			  c.DataInativacao
+			FROM Colaborador c WITH(NOLOCK)
+				INNER JOIN Colaborador co WITH(NOLOCK)
+					ON co.Id = c.IdColaboradorCadastro
+				LEFT JOIN Colaborador col WITH(NOLOCK)
+					ON col.Id = c.IdColaboradorAlteracao
+			WHERE c.Cpf = @Cpf
 		
 
 	END
@@ -123,7 +129,7 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdColaborador]
 	Objetivo..........: Atualizar dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_UpdColaborador] 
+	Ex................: EXEC [dbo].[GKSSP_UpdColaborador]
 
 	*/
 
