@@ -7,7 +7,7 @@
 	BEGIN TRAN
 		
 		CREATE TABLE ChamadoHistoricoStatus(
-			Id				int primary key identity (1,1) not null,
+			Id				int primary key identity (1,1),
 			IdChamado		int not null,
 			IdStatus		tinyint not null,
 			DataCadastro	datetime not null,

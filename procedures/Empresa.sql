@@ -17,7 +17,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsEmpresa]
 	Objetivo..........: Inserir dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsEmpresa] 12345678912346,  'MagazineLuiza&Empresa', 'MagazineLuiza', 1
+	Ex................: EXEC [dbo].[GKSSP_InsEmpresa]
 
 	*/
 
@@ -44,7 +44,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresa]
 	Objetivo..........: Buscar dados empresa
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelEmpresa] 12345678912345
+	Ex................: EXEC [dbo].[GKSSP_SelEmpresa] 
 
 	*/
 

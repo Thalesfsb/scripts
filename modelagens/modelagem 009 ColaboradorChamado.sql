@@ -20,4 +20,4 @@
 		ALTER TABLE ColaboradorChamado ADD CONSTRAINT FK_ColaboradorChamado_Colaborador
 		FOREIGN KEY (IdColaborador) REFERENCES Colaborador(Id)
 
-	ROLLBACK --COMMIT
+	COMMIT

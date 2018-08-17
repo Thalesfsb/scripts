@@ -1,6 +1,7 @@
 
 -- 09/08/2018 - Thales Silveira
 --script para criar a tabela Colaborador
+
 	USE SmnHelpDesk
 
 	BEGIN TRAN
@@ -24,7 +25,7 @@
 		FOREIGN KEY (IdTipoColaborador) REFERENCES TipoColaborador(Id)
 
 		INSERT INTO Colaborador (Cpf, Nome, Email, Logon, Senha, IdTipoColaborador, IdColaboradorCadastro, DataCadastro) 
-			VALUES (35478637831, 'MASTER', 'thales.silveira@smn.com.br', 'thales.silveira', '123', 1, 1, GETDATE())
+			VALUES (11826065636, 'Thales Silveira', 'thales.silveira@smn.com.br', 'thales.silveira', '123', 1, 1, GETDATE())
 
 		ALTER TABLE Colaborador ADD CONSTRAINT FK_Colaborador_ColaboradorCA
 		FOREIGN KEY (IdColaboradorCadastro) REFERENCES Colaborador(Id)
@@ -32,7 +33,6 @@
 		ALTER TABLE Colaborador ADD CONSTRAINT FK_Colaborador_ColaboradorAL
 		FOREIGN KEY (IdColaboradorAlteracao) REFERENCES Colaborador(Id)
 
-
-	ROLLBACK --COMMIT
+	COMMIT
 
 

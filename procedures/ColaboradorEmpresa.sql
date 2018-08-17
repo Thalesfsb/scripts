@@ -37,7 +37,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaboradorEmpresa]
 
 	/*
 	Documentação
-	Arquivo Fonte.....: ArquivoFonte.sql
+	Arquivo Fonte.....: ColaboradorEmpresa.sql
 	Objetivo..........: Buscar dados 
 	Autor.............: SMN - Thales Silveira
  	Data..............: 16/08/2018

@@ -7,7 +7,7 @@
 	BEGIN TRAN
 		
 		CREATE TABLE Chamado(
-			Id						int primary key identity(1,1) not null,
+			Id						int primary key identity(1,1),
 			NumeroChamado			int not null,
 			Nome					varchar(50) not null,
 			Descricao				varchar(500) not null,
@@ -35,4 +35,4 @@
 		ALTER TABLE Chamado ADD CONSTRAINT FK_Chamado_ClienteAL
 		FOREIGN KEY (IdClienteAlteracao) REFERENCES Cliente(Id)
 
-	ROLLBACK --COMMIT
+	COMMIT

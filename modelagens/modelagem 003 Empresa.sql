@@ -1,12 +1,13 @@
 
 -- 09/08/2018 - Thales Silveira
 --script para criar a tabela de Empresa
+
 	USE SmnHelpDesk
 
 	BEGIN TRAN
 
 		CREATE TABLE Empresa(
-			Id						int primary key identity(1,1) not null,
+			Id						int primary key identity(1,1),
 			Cnpj					decimal(14,0) unique not null,
 			RazaoSocial				varchar(50) not null,
 			NomeFantasia			varchar(50) not null,
@@ -23,5 +24,5 @@
 		ALTER TABLE Empresa ADD CONSTRAINT FK_Empresa_ColaboradorAL
 		FOREIGN KEY (IdColaboradorAlteracao ) REFERENCES Colaborador(Id)
 
-	ROLLBACK --COMMIT
+	COMMIT
 	

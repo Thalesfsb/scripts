@@ -46,7 +46,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelCliente]
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
 	Ex................: EXEC [dbo].[GKSSP_SelCliente]
-	OBS!!
+
 	*/
 
 	BEGIN

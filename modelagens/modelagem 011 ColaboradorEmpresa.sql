@@ -1,7 +1,8 @@
-USE SmnHelpDesk
 
 -- 16/08/2018 - Thales Silveira
 --script para criar a tabela ColaboradorEmpresa
+
+	USE SmnHelpDesk
 
 	BEGIN TRAN
 
@@ -19,4 +20,4 @@ USE SmnHelpDesk
 		ALTER TABLE ColaboradorEmpresa ADD CONSTRAINT FK_ColaboradorEmpresa_Empresa
 		FOREIGN KEY (IdEmpresa) REFERENCES Empresa(Id)
 	
-	ROLLBACK --COMMIT
+	COMMIT
