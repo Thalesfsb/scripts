@@ -8,6 +8,7 @@
 		
 		CREATE TABLE Chamado(
 			Id						int primary key identity(1,1) not null,
+			NumeroChamado			int not null,
 			Nome					varchar(50) not null,
 			Descricao				varchar(500) not null,
 			IdCriticidade			tinyint not null,

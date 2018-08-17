@@ -8,10 +8,9 @@
 		CREATE TABLE Colaborador(
 			Id							int primary key identity(1,1),
 			Cpf							decimal(11,0) unique  not null,
-			Nome						varchar(30) not null,
-			Sobrenome					varchar(30) not null,
+			Nome						varchar(50) not null,
 			Email						varchar(100) not null,
-			UserName					varchar(50) not null,
+			Logon						varchar(50) not null,
 			Senha						varchar(20) not null,
 			IdTipoColaborador			tinyint not null,
 			IdColaboradorCadastro		int not null, 
@@ -24,8 +23,8 @@
 		ALTER TABLE Colaborador ADD CONSTRAINT FK_Colaborador_TipoColaborador
 		FOREIGN KEY (IdTipoColaborador) REFERENCES TipoColaborador(Id)
 
-		INSERT INTO Colaborador (Cpf, Nome, Sobrenome, Email, UserName, Senha, IdTipoColaborador, IdColaboradorCadastro, DataCadastro) 
-			VALUES (35478637831, 'MASTER', 'COLABORADOR', 'thales.silveira@smn.com.br', 'thales.silveira', '123', 1, 1, GETDATE())
+		INSERT INTO Colaborador (Cpf, Nome, Email, Logon, Senha, IdTipoColaborador, IdColaboradorCadastro, DataCadastro) 
+			VALUES (35478637831, 'MASTER', 'thales.silveira@smn.com.br', 'thales.silveira', '123', 1, 1, GETDATE())
 
 		ALTER TABLE Colaborador ADD CONSTRAINT FK_Colaborador_ColaboradorCA
 		FOREIGN KEY (IdColaboradorCadastro) REFERENCES Colaborador(Id)
@@ -37,4 +36,3 @@
 	ROLLBACK --COMMIT
 
 
-	

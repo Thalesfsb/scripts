@@ -7,8 +7,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsEmpresa]
 	@Cnpj						decimal(14,0),
 	@RazaoSocial				varchar(50),
 	@NomeFantasia				varchar(50),
-	@IdColaboradorCadastro		int,
-	@DataCadastro				dateTime 
+	@IdColaboradorCadastro		int
 
 	AS
 
@@ -18,7 +17,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsEmpresa]
 	Objetivo..........: Inserir dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsEmpresa]
+	Ex................: EXEC [dbo].[GKSSP_InsEmpresa] 12345678912346,  'MagazineLuiza&Empresa', 'MagazineLuiza', 1
 
 	*/
 
@@ -45,7 +44,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresa]
 	Objetivo..........: Buscar dados empresa
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelEmpresa]
+	Ex................: EXEC [dbo].[GKSSP_SelEmpresa] 12345678912345
 
 	*/
 
@@ -54,16 +53,16 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresa]
 		SELECT em.Cnpj,
 			   em.RazaoSocial,
 			   em.NomeFantasia,
-			   colcad.Nome,
-			   colalt.Nome,
+			   colcad.Nome AS NomeColaboradorCad,
 			   em.DataCadastro,
+			   colalt.Nome AS NomeColaboradorAlt,
 			   em.DataAlteracao,
 			   em.DataInativacao			
 			FROM Empresa em WITH(NOLOCK)
 				INNER JOIN Colaborador colcad WITH(NOLOCK)
-					ON colcad.IdColaboradorCadastro = em.IdColaboradorCadastro
+					ON colcad.Id = em.IdColaboradorCadastro
 				LEFT JOIN Colaborador colalt WITH(NOLOCK)
-					ON colalt.IdColaboradorAlteracao = em.IdColaboradorAlteracao
+					ON colalt.Id = em.IdColaboradorAlteracao
 			WHERE Cnpj = @Cnpj
 
 	END
@@ -92,18 +91,16 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresas]
 		SELECT em.Cnpj,
 			   em.RazaoSocial,
 			   em.NomeFantasia,
-			   colcad.Nome,
-			   colcad.Sobrenome,
-			   colalt.Nome,
-			   colalt.Sobrenome,
+			   colcad.Nome AS NomeColaboradorCad,
 			   em.DataCadastro,
+			   colalt.Nome AS NomeColaboradorAlt,
 			   em.DataAlteracao,
 			   em.DataInativacao			
 			FROM Empresa em WITH(NOLOCK)
 				INNER JOIN Colaborador colcad WITH(NOLOCK)
-					ON colcad.IdColaboradorCadastro = em.IdColaboradorCadastro
+					ON colcad.Id = em.IdColaboradorCadastro
 				LEFT JOIN Colaborador colalt WITH(NOLOCK)
-					ON colalt.IdColaboradorAlteracao = em.IdColaboradorAlteracao
+					ON colalt.Id = em.IdColaboradorAlteracao
 
 	END
 GO

@@ -4,11 +4,10 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_InsC
 GO
 
 CREATE PROCEDURE [dbo].[GKSSP_InsColaborador]
-	@Cpf						decimal(14,0),
-	@Nome						varchar(30),
-	@Sobrenome					varchar(30),
+	@Cpf						decimal(11,0),
+	@Nome						varchar(50),
 	@Email						varchar(100),
-	@UserName					varchar(50),
+	@Logon						varchar(20),
 	@Senha						varchar(20),
 	@IdTipoColaborador			tinyint,
 	@IdColaboradorCadastro		int
@@ -21,14 +20,14 @@ CREATE PROCEDURE [dbo].[GKSSP_InsColaborador]
 	Objetivo..........: Inserir os dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsColaborador]
+	Ex................: EXEC [dbo].[GKSSP_InsColaborador] 11826065639, 'Douglas DuMato', 'dumatocv@smn.com.br', 'dumatocv', '123', 2, 1
 
 	*/
 
 	BEGIN
 		
-		INSERT INTO Colaborador	(Cpf, Nome, Sobrenome, Email, UserName, Senha, IdTipoColaborador, IdColaboradorCadastro, DataCadastrO)
-			VALUES (@Cpf, @Nome, @Sobrenome, @Email, @UserName, @Senha, @IdTipoColaborador, @IdColaboradorCadastro, GETDATE())		
+		INSERT INTO Colaborador	(Cpf, Nome, Email, Logon, Senha, IdTipoColaborador, IdColaboradorCadastro, DataCadastrO)
+			VALUES (@Cpf, @Nome, @Email, @Logon, @Senha, @IdTipoColaborador, @IdColaboradorCadastro, GETDATE())		
 
 	END
 GO
@@ -39,7 +38,7 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_SelC
 GO
 
 CREATE PROCEDURE [dbo].[GKSSP_SelColaborador]
-	@Cpf decimal(14,0)
+	@Cpf decimal(11,0)
 
 	AS
 
@@ -49,20 +48,22 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaborador]
 	Objetivo..........: Buscar dados colaborador
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelColaborador]
-	OBERSERVAO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	Ex................: EXEC [dbo].[GKSSP_SelColaborador] 11826065636
+
 	*/
 
 	BEGIN
 	   
 	   SELECT Cpf,
 			  Nome,
-			  Sobrenome,
 			  Email,
-			  UserName,
+			  Logon,
 			  IdTipoColaborador,
 			  IdColaboradorCadastro,
-			  DataCadastro
+			  DataCadastro,
+			  IdColaboradorAlteracao,
+			  DataAlteracao,
+			  DataInativacao
 			FROM Colaborador WITH(NOLOCK)
 			WHERE Cpf = @Cpf
 		
@@ -85,17 +86,18 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaboradores]
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
 	Ex................: EXEC [dbo].[GKSSP_SelColaboradores]
-	OBERSERVAO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	*/
 
+	*/
 	BEGIN
 		
-		SELECT Cpf,
-			   Nome,
-			   Sobrenome,
-			   Email,
-			   UserName  
-			FROM Colaborador WITH(NOLOCK)		
+		SELECT c.Cpf,
+			   tc.Nome AS NomeTipoColaborador,  
+			   c.Nome,
+			   c.Email,
+			   c.Logon
+			FROM Colaborador c WITH(NOLOCK)		
+				INNER JOIN TipoColaborador tc WITH(NOLOCK)
+					ON tc.Id = c.IdTipoColaborador
 
 	END
 GO
@@ -105,11 +107,10 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_UpdC
 GO
 
 CREATE PROCEDURE [dbo].[GKSSP_UpdColaborador]
-	@Cpf						decimal(14,0),
-	@Nome						varchar(30),
-	@Sobrenome					varchar(30),
+	@Cpf						decimal(11,0),
+	@Nome						varchar(50),
 	@Email						varchar(100),
-	@UserName					varchar(50),
+	@Logon						varchar(20),
 	@Senha						varchar(20),
 	@IdTipoColaborador			tinyint,
 	@IdColaboradoAlteracao		int
@@ -122,7 +123,7 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdColaborador]
 	Objetivo..........: Atualizar dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_UpdColaborador]
+	Ex................: EXEC [dbo].[GKSSP_UpdColaborador] 
 
 	*/
 
@@ -131,9 +132,8 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdColaborador]
 		UPDATE Colaborador
 			SET Cpf = @Cpf,
 				Nome = @Nome,
-				Sobrenome = @Sobrenome,
 				Email = @Email,
-				UserName = @UserName,
+				Logon = @Logon,
 				Senha = @Senha,
 				IdTipoColaborador = @IdTipoColaborador,
 				IdColaboradorAlteracao = @IdColaboradoAlteracao,

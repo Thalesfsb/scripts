@@ -1,4 +1,4 @@
-
+ 
 -- 09/08/2018 - Thales Silveira
 --script para criar a tabela Chamado
 	
@@ -10,8 +10,10 @@
 			Id				int primary key identity (1,1) not null,
 			IdChamado		int not null,
 			IdStatus		tinyint not null,
+			DataCadastro	datetime not null,
 			IdColaborador	int,
-			IdCliente		int 
+			IdCliente		int
+			
 		)
 
 		ALTER TABLE ChamadoHistoricoStatus ADD CONSTRAINT FK_ChamadoHistoricoStatus_Chamado

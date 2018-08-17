@@ -4,6 +4,7 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_InsC
 GO
 
 CREATE PROCEDURE [dbo].[GKSSP_InsChamado]
+	@NumeroChamado			int,
 	@Nome					varchar(50), 
 	@Descricao				varchar(500),
 	@IdCriticidade			tinyint,
@@ -25,8 +26,8 @@ CREATE PROCEDURE [dbo].[GKSSP_InsChamado]
 
 	BEGIN
 	
-		INSERT INTO Chamado (Nome, Descricao, IdCriticidade, IdTipo, IdStatus, IdClienteCadastro, DataCadastro)
-			VALUES (@Nome, @Descricao, @IdCriticidade, @IdTipo, @IdStatus, @IdClienteCadastro, GETDATE())
+		INSERT INTO Chamado (NumeroChamado, Nome, Descricao, IdCriticidade, IdTipo, IdStatus, IdClienteCadastro, DataCadastro)
+			VALUES (@NumeroChamado, @Nome, @Descricao, @IdCriticidade, @IdTipo, @IdStatus, @IdClienteCadastro, GETDATE())
 
 	END
 GO
@@ -36,7 +37,7 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_SelC
 GO
 
 CREATE PROCEDURE [dbo].[GKSSP_SelChamado]
-	@Id int
+	@NumeroChamado int
 
 	AS
 
@@ -46,20 +47,21 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamado]
 	Objetivo..........: Buscar os dados de um chamado
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelChamado]
+	Ex................: EXEC [dbo].[GKSSP_SelChamado] 
 
 	*/
 
 	BEGIN
-		SELECT   c.Descricao,				
-				 cri.Nome AS Criticidade,
-				 ts.Nome AS TipoStatus
+		SELECT  c.Descricao,	
+				c.NumeroChamado,			
+				cri.Nome AS Criticidade,
+				ts.Nome AS TipoStatus
 			FROM Chamado c WITH(NOLOCK)
 				INNER JOIN TipoCriticidade cri WITH(NOLOCK)
 					ON cri.Id = c.IdCriticidade 
 				INNER JOIN ChamadoTipoStatus ts WITH(NOLOCK)
 					ON ts.Id = c.IdStatus				
-			WHERE c.Id = @Id
+			WHERE c.NumeroChamado = @NumeroChamado
 
 	END
 GO
@@ -69,6 +71,10 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_SelC
 GO
 
 CREATE PROCEDURE [dbo].[GKSSP_SelChamados]
+	
+	@IdEmpresa	int = null,
+	@IdStatus	tinyint = null,
+	@idCliente	int = null
 
 	AS
 
@@ -84,15 +90,17 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamados]
 
 	BEGIN
 	
-		SELECT  c.Id AS Chamado, 
-				em.RazaoSocial AS Empresa,
-				ccad.Nome AS Solicitante,
-				c.Nome AS Problema,
-				cri.Nome AS Criticidade,
-				col.Nome AS Atendimento,
-				ts.Nome AS TipoStatus,
-				calt.Nome AS SolicitanteAlt,
-				calt.Sobrenome			
+		SELECT  c.Id, 
+				c.NumeroChamado,
+				em.RazaoSocial AS NomeEmpresa,
+				ccad.Nome AS NomeClienteCad,
+				c.DataCadastro,
+				c.Nome,
+				cri.Nome AS NomeCriticidade,
+				c.IdStatus,
+				ts.Nome AS NomeTipoStatus,
+				calt.Nome AS NomeClienteAlt,
+				c.DataAlteracao
 			FROM Chamado c WITH(NOLOCK)
 				INNER JOIN TipoCriticidade cri WITH(NOLOCK)
 					ON cri.Id = c.IdCriticidade 
@@ -104,11 +112,9 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamados]
 					ON calt.Id = c.IdClienteAlteracao
 				INNER JOIN Empresa em WITH(NOLOCK)
 					ON em.Id = ccad.IdEmpresa
-				INNER JOIN ColaboradorChamado colc WITH(NOLOCK)
-					ON colc.IdChamado = c.Id
-				INNER JOIN Colaborador col WITH(NOLOCK)
-					ON col.Id = colc.IdColaborador
-
+			WHERE (@IdEmpresa IS NULL OR ccad.IdEmpresa = @IdEmpresa) 
+				AND (@IdStatus IS NULL OR c.IdStatus = @IdStatus)
+				AND (@idCliente IS NULL OR c.IdClienteCadastro = @idCliente)
 	END
 GO
 						
@@ -117,6 +123,7 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_UpdC
 GO
 
 CREATE PROCEDURE [dbo].[GKSSP_UpdChamado]
+	@NumeroChamado			int,
 	@Nome					varchar(50), 
 	@Descricao				varchar(500),
 	@IdCriticidade			tinyint,
@@ -145,6 +152,6 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdChamado]
 				IdStatus = @IdStatus,
 				IdClienteAlteracao = @IdClienteAlteracao,
 				DataAlteracao = GETDATE()
-
+			WHERE NumeroChamado = @NumeroChamado
 	END
 GO				
