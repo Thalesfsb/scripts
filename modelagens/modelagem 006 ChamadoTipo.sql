@@ -11,7 +11,7 @@
 			Nome	varchar(50) not null,
 		)
 
-		INSERT INTO ChamadoTipo(Id, Nome) VALUES(1, 'Erro')
-		INSERT INTO ChamadoTipo(Id, Nome) VALUES(2, 'Solicitação')
+		INSERT INTO ChamadoTipo (Id, Nome) VALUES (1, 'Erro')
+		INSERT INTO ChamadoTipo (Id, Nome) VALUES (2, 'Solicitação')
 
 	COMMIT

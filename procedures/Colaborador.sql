@@ -6,7 +6,6 @@ GO
 CREATE PROCEDURE [dbo].[GKSSP_InsColaborador]
 	@Cpf						decimal(11,0),
 	@Nome						varchar(50),
-	@Email						varchar(100),
 	@Logon						varchar(20),
 	@Senha						varchar(20),
 	@IdTipoColaborador			tinyint,
@@ -26,8 +25,8 @@ CREATE PROCEDURE [dbo].[GKSSP_InsColaborador]
 
 	BEGIN
 		
-		INSERT INTO Colaborador	(Cpf, Nome, Email, Logon, Senha, IdTipoColaborador, IdColaboradorCadastro, DataCadastrO)
-			VALUES (@Cpf, @Nome, @Email, @Logon, @Senha, @IdTipoColaborador, @IdColaboradorCadastro, GETDATE())		
+		INSERT INTO Colaborador	(Cpf, Nome, Logon, Senha, IdTipoColaborador, IdColaboradorCadastro, DataCadastrO)
+			VALUES (@Cpf, @Nome, @Logon, @Senha, @IdTipoColaborador, @IdColaboradorCadastro, GETDATE())		
 
 	END
 GO
@@ -56,7 +55,6 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaborador]
 	   
 	   SELECT c.Cpf,
 			  c.Nome,
-			  c.Email,
 			  c.Logon,
 			  c.IdTipoColaborador,
 			  c.IdColaboradorCadastro,
@@ -99,7 +97,6 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaboradores]
 		SELECT c.Cpf,
 			   tc.Nome AS NomeTipoColaborador,  
 			   c.Nome,
-			   c.Email,
 			   c.Logon
 			FROM Colaborador c WITH(NOLOCK)		
 				INNER JOIN TipoColaborador tc WITH(NOLOCK)
@@ -115,7 +112,6 @@ GO
 CREATE PROCEDURE [dbo].[GKSSP_UpdColaborador]
 	@Cpf						decimal(11,0),
 	@Nome						varchar(50),
-	@Email						varchar(100),
 	@Logon						varchar(20),
 	@Senha						varchar(20),
 	@IdTipoColaborador			tinyint,
@@ -138,7 +134,6 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdColaborador]
 		UPDATE Colaborador
 			SET Cpf = @Cpf,
 				Nome = @Nome,
-				Email = @Email,
 				Logon = @Logon,
 				Senha = @Senha,
 				IdTipoColaborador = @IdTipoColaborador,

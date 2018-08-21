@@ -1,6 +1,6 @@
 
 -- 16/08/2018 - Thales Silveira
---script para criar a tabela ColaboradorEmpresa
+-- script para criar a tabela ColaboradorEmpresa
 
 	USE SmnHelpDesk
 

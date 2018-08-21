@@ -1,6 +1,6 @@
 
 -- 09/08/2018 - Thales Silveira
---script para criar a tabela Chamado
+-- script para criar a tabela Chamado
 
 	USE SmnHelpDesk
 	
@@ -24,7 +24,7 @@
 		FOREIGN KEY (IdCriticidade) REFERENCES TipoCriticidade(Id)
 
 		ALTER TABLE Chamado ADD CONSTRAINT FK_Chamado_ChamadoTipo
-		FOREIGN KEY (IdTipo)REFERENCES ChamadoTipo(Id)
+		FOREIGN KEY (IdTipo) REFERENCES ChamadoTipo(Id)
 
 		ALTER TABLE Chamado ADD CONSTRAINT FK_Chamado_ChamadoTipoStatus
 		FOREIGN KEY (IdStatus) REFERENCES ChamadoTipoStatus(Id)		

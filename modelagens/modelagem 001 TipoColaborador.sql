@@ -1,6 +1,6 @@
 
 -- 09/08/2018 - Thales Silveira
---script para criar a tabela de TipoColaborador
+-- script para criar a tabela de TipoColaborador
 
 	CREATE DATABASE SmnHelpDesk
 
@@ -17,4 +17,3 @@
 		INSERT INTO TipoColaborador (Id, Nome) VALUES (2, 'Colaborador')
 	
 	COMMIT
-	

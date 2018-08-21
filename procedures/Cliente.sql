@@ -6,7 +6,6 @@ GO
 CREATE PROCEDURE [dbo].[GKSSP_InsCliente]
 	@Cpf					decimal(11,0),
 	@Nome					varchar(50),		
-	@Email					varchar(100),
 	@IdEmpresa				int,			
 	@IdColaboradorCadastro	int
 
@@ -24,8 +23,8 @@ CREATE PROCEDURE [dbo].[GKSSP_InsCliente]
 
 	BEGIN
 	
-		INSERT INTO Cliente (Cpf, Nome, Email, IdEmpresa, IdColaboradorCadastro, DataCadastro)
-			VALUES (@Cpf, @Nome, @Email, @IdEmpresa, @IdColaboradorCadastro, GETDATE())
+		INSERT INTO Cliente (Cpf, Nome, IdEmpresa, IdColaboradorCadastro, DataCadastro)
+			VALUES (@Cpf, @Nome, @IdEmpresa, @IdColaboradorCadastro, GETDATE())
 
 	END
 GO
@@ -54,7 +53,6 @@ CREATE PROCEDURE [dbo].[GKSSP_SelCliente]
 		SELECT 	cl.Cpf,
 				em.RazaoSocial AS NomeEmpresa,
 				cl.Nome,
-				cl.Email,
 				cl.DataCadastro,
 				colcad.Nome AS NomeColaboradorCadastro,
 				cl.DataAlteracao,
@@ -94,8 +92,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelClientes]
 	
 		SELECT 	cl.Cpf,
 				em.RazaoSocial AS NomeEmpresa,
-				cl.Nome,
-				cl.Email
+				cl.Nome
 			FROM Cliente cl WITH(NOLOCK)
 				INNER JOIN Empresa em WITH(NOLOCK)
 					ON em.Id = cl.IdEmpresa			
@@ -110,7 +107,6 @@ GO
 CREATE PROCEDURE [dbo].[GKSSP_UpdCliente]
 	@Cpf						decimal(11,0),
 	@Nome						varchar(50),		
-	@Email						varchar(100),
 	@IdEmpresa					int,			
 	@IdColaboradorAlteracao		int
 
@@ -130,7 +126,6 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdCliente]
 	
 		UPDATE Cliente
 			SET Nome = @Nome,
-				Email = @Email,
 				IdEmpresa = @IdEmpresa,
 				IdColaboradorAlteracao = @IdColaboradorAlteracao,
 				DataAlteracao = GETDATE()

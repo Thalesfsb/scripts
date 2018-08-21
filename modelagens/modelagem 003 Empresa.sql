@@ -1,6 +1,6 @@
 
 -- 09/08/2018 - Thales Silveira
---script para criar a tabela de Empresa
+-- script para criar a tabela de Empresa
 
 	USE SmnHelpDesk
 
