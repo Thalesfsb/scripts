@@ -7,18 +7,21 @@
 	BEGIN TRAN
 		
 		CREATE TABLE Chamado(
-			Id						int primary key identity(1,1),
+			Id						int identity(1,1) not null,
 			NumeroChamado			int not null,
-			Nome					varchar(50) not null,
+			NomeProblema			varchar(50) not null,
 			Descricao				varchar(500) not null,
 			IdCriticidade			tinyint not null,
 			IdTipo					tinyint not null,
 			IdStatus				tinyint not null,
-			IdClienteCadastro		int not null, 
+			IdClienteCad			int not null, 
 			DataCadastro			dateTime not null,
-			IdClienteAlteracao		int,		 
+			IdClienteAlt			int,		 
 			DataAlteracao			dateTime,
 		)		
+
+		ALTER TABLE Chamado ADD CONSTRAINT PK_Chamado
+		PRIMARY KEY (Id) 
 
 		ALTER TABLE Chamado ADD CONSTRAINT FK_Chamado_TiposCriticidade
 		FOREIGN KEY (IdCriticidade) REFERENCES TipoCriticidade(Id)
@@ -29,10 +32,10 @@
 		ALTER TABLE Chamado ADD CONSTRAINT FK_Chamado_ChamadoTipoStatus
 		FOREIGN KEY (IdStatus) REFERENCES ChamadoTipoStatus(Id)		
 
-		ALTER TABLE Chamado ADD CONSTRAINT FK_Chamado_ClienteCA
-		FOREIGN KEY (IdClienteCadastro )REFERENCES Cliente(Id)
+		ALTER TABLE Chamado ADD CONSTRAINT FK_Chamado_ClienteCad
+		FOREIGN KEY (IdClienteCad) REFERENCES Cliente(Id)
 
-		ALTER TABLE Chamado ADD CONSTRAINT FK_Chamado_ClienteAL
-		FOREIGN KEY (IdClienteAlteracao) REFERENCES Cliente(Id)
+		ALTER TABLE Chamado ADD CONSTRAINT FK_Chamado_ClienteAlt
+		FOREIGN KEY (IdClienteAlt) REFERENCES Cliente(Id)
 
 	COMMIT

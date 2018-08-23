@@ -7,9 +7,12 @@
 	BEGIN TRAN
 
 		CREATE TABLE ChamadoTipoStatus(
-			Id		tinyint primary key,
+			Id		tinyint not null,
 			Nome	varchar(50) not null,
 		)
+
+		ALTER TABLE ChamadoTipoStatus ADD CONSTRAINT PK_ChamadoTipoStatus
+		PRIMARY KEY (Id)
 
 		INSERT INTO ChamadoTipoStatus (Id, Nome) VALUES (1, 'Pendente de análise')
 		INSERT INTO ChamadoTipoStatus (Id, Nome) VALUES (2, 'Em análise')

@@ -7,7 +7,7 @@
 	BEGIN TRAN
 		
 		CREATE TABLE ChamadoHistoricoStatus(
-			Id				int primary key identity (1,1),
+			Id				int identity (1,1) not null,
 			IdChamado		int not null,
 			IdStatus		tinyint not null,
 			DataCadastro	datetime not null,
@@ -15,6 +15,9 @@
 			IdCliente		int
 			
 		)
+
+		ALTER TABLE ChamadoHistoricoStatus ADD CONSTRAINT PK_ChamadoHistoricoStatus
+		PRIMARY KEY (Id)
 
 		ALTER TABLE ChamadoHistoricoStatus ADD CONSTRAINT FK_ChamadoHistoricoStatus_Chamado
 		FOREIGN KEY (IdChamado) REFERENCES Chamado(Id)

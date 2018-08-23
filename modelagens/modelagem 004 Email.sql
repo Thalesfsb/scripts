@@ -7,8 +7,11 @@
 	BEGIN TRAN
 
 		CREATE TABLE Email(
-			Id			int primary key identity(1,1),
-			Endereco	varchar(50) not null
+			Id			int identity(1,1) not null,
+			EndEmail	varchar(50) not null
 		)
 	
+		ALTER TABLE Email ADD CONSTRAINT PK_Email
+		PRIMARY KEY (Id)
+
 	COMMIT

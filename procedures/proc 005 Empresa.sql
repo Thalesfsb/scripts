@@ -5,9 +5,11 @@ GO
 
 CREATE PROCEDURE [dbo].[GKSSP_InsEmpresa]
 	@Cnpj						decimal(14,0),
+	@IdTelefonePrincipal		int,
+	@IdEnderecoPrincipal		int,
 	@RazaoSocial				varchar(50),
 	@NomeFantasia				varchar(50),
-	@IdColaboradorCadastro		int
+	@IdColaboradorCad			int
 
 	AS
 
@@ -17,14 +19,14 @@ CREATE PROCEDURE [dbo].[GKSSP_InsEmpresa]
 	Objetivo..........: Inserir dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsEmpresa]
-
+	Ex................: EXEC [dbo].[GKSSP_InsEmpresa] 12345678998745, 1, 1, 'Momentum&Cia', 'Momentum', 1
+	
 	*/
 
 	BEGIN
 		
-		INSERT INTO Empresa (Cnpj, RazaoSocial, NomeFantasia, IdColaboradorCadastro, DataCadastro)
-			VALUES (@Cnpj, @RazaoSocial, @NomeFantasia, @IdColaboradorCadastro, GETDATE())		
+		INSERT INTO Empresa (Cnpj, IdTelefonePrincipal, IdEnderecoPrincipal, RazaoSocial, NomeFantasia, IdColaboradorCad, DataCadastro)
+			VALUES (@Cnpj, @IdTelefonePrincipal, @IdEnderecoPrincipal, @RazaoSocial, @NomeFantasia, @IdColaboradorCad, GETDATE())		
 
 	END
 GO
@@ -44,23 +46,38 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresa]
 	Objetivo..........: Buscar dados empresa
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelEmpresa] 
-
+	Ex................: EXEC [dbo].[GKSSP_SelEmpresa] 12345678998745
+	
 	*/
 
 	BEGIN
 		SELECT em.Id,
 			   em.Cnpj,
 			   em.RazaoSocial,
-			   em.NomeFantasia
-
+			   em.NomeFantasia,
+			   e.Nom_Endereco,
+			   e.Num_Endereco,
+			   e.Complemento,
+			   e.Bairro,
+			   e.Cep,
+			   e.Cidade,
+			   e.Uf,
+			   tt.Nome,
+			   t.DDD,
+			   t.Numero,
+			   t.Ramal			   
 			FROM Empresa em WITH(NOLOCK)
-				--dados telefone email endereco
+				INNER JOIN Endereco e WITH(NOLOCK)
+					ON e.Id = em.IdEnderecoPrincipal 
+				INNER JOIN Telefone t WITH(NOLOCK)
+					ON t.Id = em.IdTelefonePrincipal
+				INNER JOIN TelefoneTipo tt WITH(NOLOCK)
+					ON tt.Id = t.IdTelefoneTipo
 			WHERE em.Cnpj = @Cnpj
 
 	END
 GO
-SELECT * FROM TelefoneTipo
+
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_SelEmpresas]') AND objectproperty(id, N'IsPROCEDURE')=1)
 	DROP PROCEDURE [dbo].[GKSSP_SelEmpresas]
 GO
@@ -78,7 +95,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresas]
 	Ex................: EXEC [dbo].[GKSSP_SelEmpresas]
 
 	*/
-
+	
 	BEGIN
 	
 		SELECT em.NomeFantasia,
@@ -103,13 +120,13 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_UpdE
 GO
 
 CREATE PROCEDURE [dbo].[GKSSP_UpdEmpresa]
-	@IdEnderecoPrincipal		int,
-	@IdTelefonePrincipal		int,
 	@Cnpj						decimal(14,0),
+	@IdTelefonePrincipal		int,
+	@IdEnderecoPrincipal		int,
 	@RazaoSocial				varchar(50),
 	@NomeFantasia				varchar(50),
-	@IdColaboradorAlteracao		int,
-	@DataAlteracao				dateTime 
+	@IdColaboradorAlt			int
+
 	AS
 
 	/*
@@ -118,19 +135,19 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdEmpresa]
 	Objetivo..........: Atualizar dados cadastrais
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_UpdEmpresa]
+	Ex................: EXEC [dbo].[GKSSP_UpdEmpresa] 12345678998745, 1, 1, 'Momentum&Cia', 'Momentum', 2
 
 	*/
 
 	BEGIN
 	
 		UPDATE Empresa
-			SET IdEnderecoPrincipal = @IdEnderecoPrincipal,
+			SET Cnpj = @Cnpj,
 				IdTelefonePrincipal = @IdTelefonePrincipal,
-				Cnpj = @Cnpj,
+				IdEnderecoPrincipal = @IdEnderecoPrincipal,
 				RazaoSocial = @RazaoSocial,
 				NomeFantasia = @NomeFantasia,
-				IdColaboradorAlteracao = @IdColaboradorAlteracao,
+				IdColaboradorAlt = @IdColaboradorAlt,
 				DataAlteracao = GETDATE()
 			WHERE Cnpj = @Cnpj
 

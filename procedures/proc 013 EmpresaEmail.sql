@@ -15,7 +15,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsEmpresaEmail]
 	Objetivo..........: Inserir dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 21/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsEmpresaEmail] 12345678912345, 4
+	Ex................: EXEC [dbo].[GKSSP_InsEmpresaEmail] 12345678998745, 1
 
 	*/
 
@@ -42,7 +42,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresaEmails]
 	Objetivo..........: Buscar emails
 	Autor.............: SMN - Thales Silveira
  	Data..............: 21/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelEmpresaEmails] 12345678912345
+	Ex................: EXEC [dbo].[GKSSP_SelEmpresaEmails] 12345678998745
 
 	*/
 
@@ -51,7 +51,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresaEmails]
 		SELECT  ee.IdEmail,
 				ee.Cnpj,
 				em.RazaoSocial,
-				e.Endereco	
+				e.EndEmail	
 		FROM EmpresaEmail ee WITH(NOLOCK)
 			INNER JOIN Email e WITH(NOLOCK)
 				ON e.Id = ee.IdEmail

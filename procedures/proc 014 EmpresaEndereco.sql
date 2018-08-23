@@ -15,7 +15,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsEmpresaEndereco]
 	Objetivo..........: Inserir dados endereco
 	Autor.............: SMN - Thales Silveira
  	Data..............: 21/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsEmpresaEndereco] 12345678912345, 3
+	Ex................: EXEC [dbo].[GKSSP_InsEmpresaEndereco] 12345678998745, 2
 
 	*/
 
@@ -42,7 +42,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresaEndereco]
 	Objetivo..........: Buscar dados endereços
 	Autor.............: SMN - Thales Silveira
  	Data..............: 21/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelEmpresaEndereco] 12345678912345
+	Ex................: EXEC [dbo].[GKSSP_SelEmpresaEndereco] 12345678998745
 
 	*/
 
@@ -80,7 +80,7 @@ CREATE PROCEDURE [dbo].[GKSSP_DelEmpresaEndereco]
 	Objetivo..........: Deletar dados endereços
 	Autor.............: SMN - Thales Silveira
  	Data..............: 21/08/2018
-	Ex................: EXEC [dbo].[GKSSP_DelEmpresaEndereco] 12345678912345, 2
+	Ex................: EXEC [dbo].[GKSSP_DelEmpresaEndereco] 12345678998745, 2
 
 	*/
 

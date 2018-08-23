@@ -15,7 +15,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsEmpresaTelefone]
 	Objetivo..........: Inserir dados 
 	Autor.............: SMN - Thales Silveira
  	Data..............: 20/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsEmpresaTelefone] 12345678912345, 8
+	Ex................: EXEC [dbo].[GKSSP_InsEmpresaTelefone] 12345678998745, 1
 
 	*/
 
@@ -42,7 +42,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresaTelefones]
 	Objetivo..........: Buscar telefones 
 	Autor.............: SMN - Thales Silveira
  	Data..............: 21/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelEmpresaTelefones] 12345678912345
+	Ex................: EXEC [dbo].[GKSSP_SelEmpresaTelefones] 12345678998745
 
 	*/
 

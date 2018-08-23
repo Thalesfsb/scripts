@@ -6,8 +6,8 @@ GO
 CREATE PROCEDURE [dbo].[GKSSP_InsChamadoHistoricoStatus]
 	@IdChamado		int,
 	@IdStatus		tinyint,
-	@IdColaborador	int,
-	@IdCliente		int 
+	@IdColaborador	int = NULL,
+	@IdCliente		int = NULL
 
 	AS
 
@@ -17,8 +17,8 @@ CREATE PROCEDURE [dbo].[GKSSP_InsChamadoHistoricoStatus]
 	Objetivo..........: Inserir dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsChamadoHistoricoStatus] 
-
+	Ex................: EXEC [dbo].[GKSSP_InsChamadoHistoricoStatus] 1, 2, 1, null
+	select * from Chamado
 	*/
 
 	BEGIN
@@ -35,6 +35,7 @@ GO
 
 CREATE PROCEDURE [dbo].[GKSSP_SelChamadoHistoricoStatus]
 	@IdChamado int
+
 	AS
 
 	/*
@@ -43,7 +44,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamadoHistoricoStatus]
 	Objetivo..........: Selecionar historico chamado
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelChamadoHistoricoStatus]
+	Ex................: EXEC [dbo].[GKSSP_SelChamadoHistoricoStatus] 1
 
 	*/
 

@@ -9,7 +9,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsColaborador]
 	@Logon						varchar(20),
 	@Senha						varchar(20),
 	@IdTipoColaborador			tinyint,
-	@IdColaboradorCadastro		int
+	@IdColaboradorCad			int
 
 	AS
 
@@ -19,14 +19,14 @@ CREATE PROCEDURE [dbo].[GKSSP_InsColaborador]
 	Objetivo..........: Inserir os dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsColaborador] 
+	Ex................: EXEC [dbo].[GKSSP_InsColaborador] 51618249649, 'Taciane Cardoso', 'TaCa', '123', 2, 1
 
 	*/
 
 	BEGIN
 		
-		INSERT INTO Colaborador	(Cpf, Nome, Logon, Senha, IdTipoColaborador, IdColaboradorCadastro, DataCadastrO)
-			VALUES (@Cpf, @Nome, @Logon, @Senha, @IdTipoColaborador, @IdColaboradorCadastro, GETDATE())		
+		INSERT INTO Colaborador	(Cpf, Nome, Logon, Senha, IdTipoColaborador, IdColaboradorCad, DataCadastrO)
+			VALUES (@Cpf, @Nome, @Logon, @Senha, @IdTipoColaborador, @IdColaboradorCad, GETDATE())		
 
 	END
 GO
@@ -47,7 +47,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaborador]
 	Objetivo..........: Buscar dados colaborador
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelColaborador] 
+	Ex................: EXEC [dbo].[GKSSP_SelColaborador] 51618249649
 
 	*/
 
@@ -57,18 +57,18 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaborador]
 			  c.Nome,
 			  c.Logon,
 			  c.IdTipoColaborador,
-			  c.IdColaboradorCadastro,
-			  co.Nome,
+			  c.IdColaboradorCad,
+			  co.Nome AS NomeColaboradorCad,
 			  c.DataCadastro,
-			  c.IdColaboradorAlteracao,
-			  col.Nome,
+			  c.IdColaboradorAlt,
+			  col.Nome AS NomeColaboradorAlt,
 			  c.DataAlteracao,
 			  c.DataInativacao
 			FROM Colaborador c WITH(NOLOCK)
 				INNER JOIN Colaborador co WITH(NOLOCK)
-					ON co.Id = c.IdColaboradorCadastro
+					ON co.Id = c.IdColaboradorCad
 				LEFT JOIN Colaborador col WITH(NOLOCK)
-					ON col.Id = c.IdColaboradorAlteracao
+					ON col.Id = c.IdColaboradorAlt
 			WHERE c.Cpf = @Cpf
 		
 
@@ -115,7 +115,7 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdColaborador]
 	@Logon						varchar(20),
 	@Senha						varchar(20),
 	@IdTipoColaborador			tinyint,
-	@IdColaboradoAlteracao		int
+	@IdColaboradoAlt			int
 
 	AS
 
@@ -125,7 +125,7 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdColaborador]
 	Objetivo..........: Atualizar dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_UpdColaborador]
+	Ex................: EXEC [dbo].[GKSSP_UpdColaborador] 51618249649, 'Taciane Cardoso', 'Ta2Ca4', '123', 2, 1
 
 	*/
 
@@ -137,7 +137,7 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdColaborador]
 				Logon = @Logon,
 				Senha = @Senha,
 				IdTipoColaborador = @IdTipoColaborador,
-				IdColaboradorAlteracao = @IdColaboradoAlteracao,
+				IdColaboradorAlt = @IdColaboradoAlt,
 				DataAlteracao = GETDATE()
 			WHERE Cpf = @Cpf		
 

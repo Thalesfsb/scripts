@@ -10,7 +10,10 @@
 			Cpf		decimal(11,0) not null,
 			IdEmail	int not null
 		)
-	
+		
+		ALTER TABLE ColaboradorEmail ADD CONSTRAINT PK_ColaboradorEmail
+		PRIMARY KEY (Cpf, IdEmail)
+
 		ALTER TABLE ColaboradorEmail ADD CONSTRAINT FK_ColaboradorEmail_Colaborador
 		FOREIGN KEY (Cpf) REFERENCES Colaborador(Cpf)
 

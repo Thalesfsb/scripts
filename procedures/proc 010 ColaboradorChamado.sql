@@ -15,7 +15,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsColaboradorChamado]
 	Objetivo..........: Inserir dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsColaboradorChamado]
+	Ex................: EXEC [dbo].[GKSSP_InsColaboradorChamado] 1, 2
 
 	*/
 
@@ -42,14 +42,14 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaboradoresChamado]
 	Objetivo..........: Buscar colaboradores
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelColaboradoresChamado]
+	Ex................: EXEC [dbo].[GKSSP_SelColaboradoresChamado] 1
 
 	*/
 
 	BEGIN
 	
 		SELECT  ch.IdChamado,
-				col.Nome
+				col.Nome AS ColaboradorChamado
 			FROM ColaboradorChamado ch WITH(NOLOCK)
 				INNER JOIN Colaborador col WITH(NOLOCK)
 					ON col.Id = ch.IdColaborador				

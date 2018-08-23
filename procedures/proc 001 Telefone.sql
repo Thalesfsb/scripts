@@ -27,9 +27,11 @@ CREATE PROCEDURE [dbo].[GKSSP_InsTelefone]
 		INSERT INTO Telefone(IdTelefoneTipo, DDD, Numero, Ramal) 
 			VALUES(@IdTelefoneTipo, @DDD, @Numero, @Ramal)
 
+		RETURN SCOPE_IDENTITY()
+
 	END
 GO
-				
+
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_UpdTelefone]') AND objectproperty(id, N'IsPROCEDURE')=1)
 	DROP PROCEDURE [dbo].[GKSSP_UpdTelefone]
 GO

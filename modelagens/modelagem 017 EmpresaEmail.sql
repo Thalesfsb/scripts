@@ -11,6 +11,9 @@
 			IdEmail		int not null
 		)
 
+		ALTER TABLE EmpresaEmail ADD CONSTRAINT PK_EmpresaEmail
+		PRIMARY KEY (Cnpj, IdEmail)
+
 		ALTER TABLE EmpresaEmail ADD CONSTRAINT FK_EmpresaEmail_Empresa
 		FOREIGN KEY (Cnpj) REFERENCES Empresa(Cnpj)
 

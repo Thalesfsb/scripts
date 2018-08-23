@@ -11,6 +11,9 @@
 			IdEmail		int not null
 		)
 
+		ALTER TABLE ClienteEmail ADD CONSTRAINT PK_ClienteEmail
+		PRIMARY KEY (Cpf, IdEmail)
+
 		ALTER TABLE ClienteEmail ADD CONSTRAINT FK_ClienteEmail_Cliente
 		FOREIGN KEY (Cpf) REFERENCES Cliente(Cpf)
 

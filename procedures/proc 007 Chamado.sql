@@ -5,12 +5,12 @@ GO
 
 CREATE PROCEDURE [dbo].[GKSSP_InsChamado]
 	@NumeroChamado			int,
-	@Nome					varchar(50), 
+	@NomeProblema			varchar(50), 
 	@Descricao				varchar(500),
 	@IdCriticidade			tinyint,
 	@IdTipo					tinyint,
 	@IdStatus				tinyint,
-	@IdClienteCadastro		int
+	@IdClienteCad			int
 
 	AS
 
@@ -20,14 +20,14 @@ CREATE PROCEDURE [dbo].[GKSSP_InsChamado]
 	Objetivo..........: Inserir dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsChamado]
-
+	Ex................: EXEC [dbo].[GKSSP_InsChamado] 1, 'Erro cadastrar lote', 'Quando clicado no botao salvar a tela fecha', 1, 1, 1, 1
+	
 	*/
 
 	BEGIN
 	
-		INSERT INTO Chamado (NumeroChamado, Nome, Descricao, IdCriticidade, IdTipo, IdStatus, IdClienteCadastro, DataCadastro)
-			VALUES (@NumeroChamado, @Nome, @Descricao, @IdCriticidade, @IdTipo, @IdStatus, @IdClienteCadastro, GETDATE())
+		INSERT INTO Chamado (NumeroChamado, NomeProblema, Descricao, IdCriticidade, IdTipo, IdStatus, IdClienteCad, DataCadastro)
+			VALUES (@NumeroChamado, @NomeProblema, @Descricao, @IdCriticidade, @IdTipo, @IdStatus, @IdClienteCad, GETDATE())
 
 	END
 GO
@@ -36,7 +36,7 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_SelC
 	DROP PROCEDURE [dbo].[GKSSP_SelChamado]
 GO
 
-CREATE PROCEDURE [dbo].[GKSSP_SelChamado]
+CREATE PROCEDURE [dbo].[GKSSP_SelChamado] 
 	@NumeroChamado int
 
 	AS
@@ -47,15 +47,15 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamado]
 	Objetivo..........: Buscar os dados de um chamado
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelChamado] 
+	Ex................: EXEC [dbo].[GKSSP_SelChamado]  1
 
 	*/
 
 	BEGIN
 		SELECT  c.Descricao,	
 				c.NumeroChamado,			
-				cri.Nome AS Criticidade,
-				ts.Nome AS TipoStatus
+				cri.Nome AS NomeCriticidade,
+				ts.Nome AS NomeTipoStatus
 			FROM Chamado c WITH(NOLOCK)
 				INNER JOIN TipoCriticidade cri WITH(NOLOCK)
 					ON cri.Id = c.IdCriticidade 
@@ -71,7 +71,6 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_SelC
 GO
 
 CREATE PROCEDURE [dbo].[GKSSP_SelChamados]
-	
 	@IdEmpresa	int = null,
 	@IdStatus	tinyint = null,
 	@idCliente	int = null
@@ -94,27 +93,23 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamados]
 				c.NumeroChamado,
 				em.RazaoSocial AS NomeEmpresa,
 				ccad.Nome AS NomeClienteCad,
-				c.DataCadastro,
-				c.Nome,
+				c.NomeProblema AS NomeProblema,
 				cri.Nome AS NomeCriticidade,
-				c.IdStatus,
-				ts.Nome AS NomeTipoStatus,
-				calt.Nome AS NomeClienteAlt,
-				c.DataAlteracao
+				ts.Nome AS NomeTipoStatus
 			FROM Chamado c WITH(NOLOCK)
 				INNER JOIN TipoCriticidade cri WITH(NOLOCK)
 					ON cri.Id = c.IdCriticidade 
 				INNER JOIN ChamadoTipoStatus ts WITH(NOLOCK)
 					ON ts.Id = c.IdStatus
 				INNER JOIN Cliente ccad WITH(NOLOCK)
-					ON ccad.Id = c.IdClienteCadastro
+					ON ccad.Id = c.IdClienteCad
 				LEFT JOIN Cliente calt WITH(NOLOCK)
-					ON calt.Id = c.IdClienteAlteracao
+					ON calt.Id = c.IdClienteAlt
 				INNER JOIN Empresa em WITH(NOLOCK)
 					ON em.Id = ccad.IdEmpresa
 			WHERE (@IdEmpresa IS NULL OR ccad.IdEmpresa = @IdEmpresa) 
 				AND (@IdStatus IS NULL OR c.IdStatus = @IdStatus)
-				AND (@idCliente IS NULL OR c.IdClienteCadastro = @idCliente)
+				AND (@idCliente IS NULL OR c.IdClienteCad = @idCliente)
 	END
 GO
 						
@@ -124,12 +119,13 @@ GO
 
 CREATE PROCEDURE [dbo].[GKSSP_UpdChamado]
 	@NumeroChamado			int,
-	@Nome					varchar(50), 
+	@NomeProblema			varchar(50), 
 	@Descricao				varchar(500),
 	@IdCriticidade			tinyint,
 	@IdTipo					tinyint,
 	@IdStatus				tinyint,
-	@IdClienteAlteracao		int
+	@IdClienteAlt			int
+
 	AS
 
 	/*
@@ -138,19 +134,19 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdChamado]
 	Objetivo..........: Atualizar dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_UpdChamado]
+	Ex................: EXEC [dbo].[GKSSP_UpdChamado] 1, 'Erro cadastrar lote', 'Quando clicado no botao salvar a tela fecha', 3, 1, 1, 1
 
 	*/
 
 	BEGIN
 	
 		UPDATE Chamado
-			SET Nome = @Nome,
+			SET NomeProblema = @NomeProblema,
 				Descricao = @Descricao,
 				IdCriticidade = @IdCriticidade,
 				IdTipo = @IdTipo,
 				IdStatus = @IdStatus,
-				IdClienteAlteracao = @IdClienteAlteracao,
+				IdClienteAlt = @IdClienteAlt,
 				DataAlteracao = GETDATE()
 			WHERE NumeroChamado = @NumeroChamado
 	END

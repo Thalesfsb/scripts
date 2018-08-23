@@ -7,10 +7,13 @@
 	BEGIN TRAN
 
 		CREATE TABLE TelefoneTipo(
-			Id		int primary key,
+			Id		int not null,
 			Nome	varchar(20) not null
 		)
 	
+		ALTER TABLE TelefoneTipo ADD CONSTRAINT PK_TelefoneTipo
+		PRIMARY KEY (Id)
+				
 		INSERT INTO TelefoneTipo (Id, Nome) VALUES (1, 'Residencial')
 		INSERT INTO TelefoneTipo (Id, Nome) VALUES (2, 'Comercial')
 		INSERT INTO TelefoneTipo (Id, Nome) VALUES (3, 'Celular')

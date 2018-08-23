@@ -4,7 +4,7 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_InsE
 GO
 
 CREATE PROCEDURE [dbo].[GKSSP_InsEmail]
-	@Endereco	varchar(50)
+	@EndEmail	varchar(50)
 
 	AS
 
@@ -14,14 +14,14 @@ CREATE PROCEDURE [dbo].[GKSSP_InsEmail]
 	Objetivo..........: Inserir dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 20/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsEmail] 'teste@smn.com.br'
+	Ex................: EXEC [dbo].[GKSSP_InsEmail] 'fariataci07@hotmail.com'
 
 	*/
 
 	BEGIN
 		
-		INSERT INTO Email(Endereco)
-			VALUES (@Endereco)
+		INSERT INTO Email(EndEmail)
+			VALUES (@EndEmail)
 
 		RETURN SCOPE_IDENTITY()
 
@@ -35,7 +35,7 @@ GO
 
 CREATE PROCEDURE [dbo].[GKSSP_UpdEmail]
 	@Id			int,
-	@Endereco	varchar(50)
+	@EndEmail	varchar(50)
 
 	AS
 
@@ -45,14 +45,14 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdEmail]
 	Objetivo..........: Atualizar email
 	Autor.............: SMN - Thales Silveira
  	Data..............: 20/08/2018
-	Ex................: EXEC [dbo].[GKSSP_UpdEmail] 3, 't2@smn.com.br'
-
+	Ex................: EXEC [dbo].[GKSSP_UpdEmail] 2, 'fariataci@hotmail.com'
+	select * from email
 	*/
 
 	BEGIN
 	
 		UPDATE Email
-			SET Endereco = @Endereco
+			SET EndEmail = @EndEmail
 			WHERE Id = @Id
 
 	END

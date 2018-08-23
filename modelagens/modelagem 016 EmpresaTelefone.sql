@@ -11,7 +11,7 @@
 			IdTelefone	int not null
 		)
 
-		ALTER TABLE EmpresaTelefone ADD CONSTRAINT PK_EmpresaTelefone_Empresa
+		ALTER TABLE EmpresaTelefone ADD CONSTRAINT PK_EmpresaTelefone
 		PRIMARY KEY (Cnpj, IdTelefone)
 
 		ALTER TABLE EmpresaTelefone ADD CONSTRAINT FK_EmpresaTelefone_Empresa

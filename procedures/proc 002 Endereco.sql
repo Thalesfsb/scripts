@@ -20,7 +20,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsEndereco]
 	Objetivo..........: Inserir dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 20/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsEndereco] 37900000, 'Onze de dezembro', 370, null, 'Candeias', 'Passos', 'MG'
+	Ex................: EXEC [dbo].[GKSSP_InsEndereco] 37900000, 'Onze de dezembro', 370, '55A', 'Candeias', 'Passos', 'MG'
 
 	*/
 
@@ -28,6 +28,8 @@ CREATE PROCEDURE [dbo].[GKSSP_InsEndereco]
 	
 		INSERT INTO Endereco(Cep, Nom_Endereco, Num_Endereco, Complemento, Bairro, Cidade, Uf)
 			VALUES(@Cep, @Nom_Endereco, @Num_Endereco, @Complemento, @Bairro, @Cidade, @Uf)
+
+		RETURN SCOPE_IDENTITY()
 
 	END
 GO
@@ -54,8 +56,8 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdEndereco]
 	Objetivo..........: Atualizar dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 20/08/2018
-	Ex................: EXEC [dbo].[GKSSP_UpdEndereco] 
-
+	Ex................: EXEC [dbo].[GKSSP_UpdEndereco] 2, 37902008, 'Santa Cruz', 55, '55A', 'Candeias', 'Passos', 'MG'
+	
 	*/
 
 	BEGIN

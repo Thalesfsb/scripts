@@ -7,7 +7,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsCliente]
 	@Cpf					decimal(11,0),
 	@Nome					varchar(50),		
 	@IdEmpresa				int,			
-	@IdColaboradorCadastro	int
+	@IdColaboradorCad		int
 
 	AS
 	
@@ -17,14 +17,14 @@ CREATE PROCEDURE [dbo].[GKSSP_InsCliente]
 	Objetivo..........: Inserir dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsCliente]
-
+	Ex................: EXEC [dbo].[GKSSP_InsCliente] 23065241221, 'Edgar', 2, 1
+	
 	*/
 
 	BEGIN
 	
-		INSERT INTO Cliente (Cpf, Nome, IdEmpresa, IdColaboradorCadastro, DataCadastro)
-			VALUES (@Cpf, @Nome, @IdEmpresa, @IdColaboradorCadastro, GETDATE())
+		INSERT INTO Cliente (Cpf, Nome, IdEmpresa, IdColaboradorCad, DataCadastro)
+			VALUES (@Cpf, @Nome, @IdEmpresa, @IdColaboradorCad, GETDATE())
 
 	END
 GO
@@ -44,7 +44,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelCliente]
 	Objetivo..........: Buscar dados cliente
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelCliente]
+	Ex................: EXEC [dbo].[GKSSP_SelCliente] 23065241221
 
 	*/
 
@@ -54,17 +54,17 @@ CREATE PROCEDURE [dbo].[GKSSP_SelCliente]
 				em.RazaoSocial AS NomeEmpresa,
 				cl.Nome,
 				cl.DataCadastro,
-				colcad.Nome AS NomeColaboradorCadastro,
+				colcad.Nome AS NomeColaboradorCad,
 				cl.DataAlteracao,
-				colalt.Nome AS NomeColaboradorAlteracao,
+				colalt.Nome AS NomeColaboradorAlT,
 				cl.DataInativacao
 			FROM Cliente cl WITH(NOLOCK)
 				INNER JOIN Empresa em WITH(NOLOCK)
 					ON em.Id = cl.IdEmpresa
 				INNER JOIN Colaborador colcad WITH(NOLOCK)
-					ON colcad.Id = cl.IdColaboradorCadastro
+					ON colcad.Id = cl.IdColaboradorCad
 				LEFT JOIN Colaborador colalt WITH(NOLOCK)
-					ON colalt.Id = cl.IdColaboradorAlteracao
+					ON colalt.Id = cl.IdColaboradorAlt
 			WHERE cl.Cpf = @Cpf
 
 	END
@@ -108,7 +108,7 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdCliente]
 	@Cpf						decimal(11,0),
 	@Nome						varchar(50),		
 	@IdEmpresa					int,			
-	@IdColaboradorAlteracao		int
+	@IdColaboradorAlt			int
 
 	AS
 
@@ -118,7 +118,7 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdCliente]
 	Objetivo..........: Atualizar dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_UpdCliente]
+	Ex................: EXEC [dbo].[GKSSP_UpdCliente] 23065241221, 'Edgar Momentum', 2, 1
 
 	*/
 
@@ -127,7 +127,7 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdCliente]
 		UPDATE Cliente
 			SET Nome = @Nome,
 				IdEmpresa = @IdEmpresa,
-				IdColaboradorAlteracao = @IdColaboradorAlteracao,
+				IdColaboradorAlt = @IdColaboradorAlt,
 				DataAlteracao = GETDATE()
 			WHERE Cpf = @Cpf
 

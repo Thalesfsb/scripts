@@ -11,6 +11,9 @@
 			IdEndereco		int not null
 		)
 
+		ALTER TABLE EmpresaEndereco ADD CONSTRAINT PK_EmpresaEndereco
+		PRIMARY KEY (Cnpj, IdEndereco)
+
 		ALTER TABLE EmpresaEndereco ADD CONSTRAINT FK_EmpresaEndereco_Empresa
 		FOREIGN KEY (Cnpj) REFERENCES Empresa(Cnpj)
 

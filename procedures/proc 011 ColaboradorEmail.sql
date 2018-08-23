@@ -15,8 +15,8 @@ CREATE PROCEDURE [dbo].[GKSSP_InsColaboradorEmail]
 	Objetivo..........: Inserir dados 
 	Autor.............: SMN - Thales Silveira
  	Data..............: 21/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsColaboradorEmail] 35478637831, 3
-
+	Ex................: EXEC [dbo].[GKSSP_InsColaboradorEmail] 51618249649, 2
+	
 	*/
 
 	BEGIN
@@ -41,7 +41,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaboradorEmail]
 	Objetivo..........: Selecionar dados 
 	Autor.............: SMN - Thales Silveira
  	Data..............: 21/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SeLColaboradorEmail] 35478637831
+	Ex................: EXEC [dbo].[GKSSP_SeLColaboradorEmail] 51618249649
 
 	*/
 
@@ -49,8 +49,8 @@ CREATE PROCEDURE [dbo].[GKSSP_SelColaboradorEmail]
 	
 		SELECT c.Cpf,
 			   c.Nome,
-			   e.Endereco,
-			   e.Id
+			   e.Id,
+			   e.EndEmail
 		FROM ColaboradorEmail ce WITH(NOLOCK)
 			INNER JOIN Email e WITH(NOLOCK)
 				ON e.Id = ce.IdEmail
