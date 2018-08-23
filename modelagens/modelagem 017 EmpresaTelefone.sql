@@ -11,10 +11,13 @@
 			IdTelefone	int not null
 		)
 
-		ALTER TABLE EmpresaTelefone ADD CONSTRAINT FK_Cnpj_Empresa
+		ALTER TABLE EmpresaTelefone ADD CONSTRAINT PK_EmpresaTelefone_Empresa
+		PRIMARY KEY (Cnpj, IdTelefone)
+
+		ALTER TABLE EmpresaTelefone ADD CONSTRAINT FK_EmpresaTelefone_Empresa
 		FOREIGN KEY (Cnpj) REFERENCES Empresa(Cnpj)
 
-		ALTER TABLE EmpresaTelefone ADD CONSTRAINT FK_Cnpj_Telefone
+		ALTER TABLE EmpresaTelefone ADD CONSTRAINT FK_EmpresaTelefone_Telefone
 		FOREIGN KEY (IdTelefone) REFERENCES Telefone(Id)
 	
 	COMMIT

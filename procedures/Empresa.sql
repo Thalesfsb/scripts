@@ -49,25 +49,18 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresa]
 	*/
 
 	BEGIN
-		
-		SELECT em.Cnpj,
+		SELECT em.Id,
+			   em.Cnpj,
 			   em.RazaoSocial,
-			   em.NomeFantasia,
-			   colcad.Nome AS NomeColaboradorCad,
-			   em.DataCadastro,
-			   colalt.Nome AS NomeColaboradorAlt,
-			   em.DataAlteracao,
-			   em.DataInativacao			
+			   em.NomeFantasia
+
 			FROM Empresa em WITH(NOLOCK)
-				INNER JOIN Colaborador colcad WITH(NOLOCK)
-					ON colcad.Id = em.IdColaboradorCadastro
-				LEFT JOIN Colaborador colalt WITH(NOLOCK)
-					ON colalt.Id = em.IdColaboradorAlteracao
-			WHERE Cnpj = @Cnpj
+				--dados telefone email endereco
+			WHERE em.Cnpj = @Cnpj
 
 	END
 GO
-				
+SELECT * FROM TelefoneTipo
 IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_SelEmpresas]') AND objectproperty(id, N'IsPROCEDURE')=1)
 	DROP PROCEDURE [dbo].[GKSSP_SelEmpresas]
 GO
@@ -88,19 +81,19 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresas]
 
 	BEGIN
 	
-		SELECT em.Cnpj,
-			   em.RazaoSocial,
-			   em.NomeFantasia,
-			   colcad.Nome AS NomeColaboradorCad,
-			   em.DataCadastro,
-			   colalt.Nome AS NomeColaboradorAlt,
-			   em.DataAlteracao,
-			   em.DataInativacao			
+		SELECT em.NomeFantasia,
+			   ee.Nom_Endereco,
+			   ee.Num_Endereco,
+			   ee.Bairro,
+			   ee.Cidade,
+			   ee.Uf,
+			   t.DDD,
+			   t.Numero
 			FROM Empresa em WITH(NOLOCK)
-				INNER JOIN Colaborador colcad WITH(NOLOCK)
-					ON colcad.Id = em.IdColaboradorCadastro
-				LEFT JOIN Colaborador colalt WITH(NOLOCK)
-					ON colalt.Id = em.IdColaboradorAlteracao
+				INNER JOIN Endereco ee WITH(NOLOCK)
+					ON ee.Id = em.IdEnderecoPrincipal
+				INNER JOIN Telefone t WITH(NOLOCK)
+					ON t.Id = em.IdTelefonePrincipal
 
 	END
 GO
@@ -110,6 +103,8 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_UpdE
 GO
 
 CREATE PROCEDURE [dbo].[GKSSP_UpdEmpresa]
+	@IdEnderecoPrincipal		int,
+	@IdTelefonePrincipal		int,
 	@Cnpj						decimal(14,0),
 	@RazaoSocial				varchar(50),
 	@NomeFantasia				varchar(50),
@@ -130,7 +125,9 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdEmpresa]
 	BEGIN
 	
 		UPDATE Empresa
-			SET Cnpj = @Cnpj,
+			SET IdEnderecoPrincipal = @IdEnderecoPrincipal,
+				IdTelefonePrincipal = @IdTelefonePrincipal,
+				Cnpj = @Cnpj,
 				RazaoSocial = @RazaoSocial,
 				NomeFantasia = @NomeFantasia,
 				IdColaboradorAlteracao = @IdColaboradorAlteracao,
