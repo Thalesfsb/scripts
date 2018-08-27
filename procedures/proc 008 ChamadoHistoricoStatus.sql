@@ -18,7 +18,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsChamadoHistoricoStatus]
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
 	Ex................: EXEC [dbo].[GKSSP_InsChamadoHistoricoStatus] 1, 2, 1, null
-	select * from Chamado
+
 	*/
 
 	BEGIN
@@ -50,7 +50,8 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamadoHistoricoStatus]
 
 	BEGIN
 	
-		SELECT 	chs.DataCadastro,
+		SELECT 	chs.Id,
+				chs.DataCadastro,
 				chs.IdStatus,
 				ts.Nome AS NomeStatus,
 				col.Nome AS NomeColaborador,
@@ -66,3 +67,32 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamadoHistoricoStatus]
 
 	END
 GO			
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_UpdChamadoHistoricoStatus]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[GKSSP_UpdChamadoHistoricoStatus]
+GO
+
+CREATE PROCEDURE [dbo].[GKSSP_UpdChamadoHistoricoStatus]
+	@IdChamado int,
+	@IdStatus  int
+
+	AS
+
+	/*
+	Documentação
+	Arquivo Fonte.....: ChamadoHistoricoStatus.sql
+	Objetivo..........: Inativar chamado
+	Autor.............: SMN - Thales Silveira
+ 	Data..............: 27/08/2018
+	Ex................: EXEC [dbo].[GKSSP_UpdChamadoHistoricoStatus] 1, 1
+
+	*/
+
+	BEGIN
+	
+		UPDATE ChamadoHistoricoStatus
+			SET IdStatus = @IdStatus
+			WHERE Id = @IdChamado
+
+	END
+GO

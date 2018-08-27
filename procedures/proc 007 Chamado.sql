@@ -29,6 +29,8 @@ CREATE PROCEDURE [dbo].[GKSSP_InsChamado]
 		INSERT INTO Chamado (NumeroChamado, NomeProblema, Descricao, IdCriticidade, IdTipo, IdStatus, IdClienteCad, DataCadastro)
 			VALUES (@NumeroChamado, @NomeProblema, @Descricao, @IdCriticidade, @IdTipo, @IdStatus, @IdClienteCad, GETDATE())
 
+		RETURN SCOPE_IDENTITY()
+
 	END
 GO
 				
@@ -37,7 +39,7 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_SelC
 GO
 
 CREATE PROCEDURE [dbo].[GKSSP_SelChamado] 
-	@NumeroChamado int
+	@Id int
 
 	AS
 
@@ -52,16 +54,23 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamado]
 	*/
 
 	BEGIN
-		SELECT  c.Descricao,	
+		SELECT  c.Id,
+				c.IdClienteAlt,
+				c.IdClienteCad,
+				c.IdCriticidade,
+				c.IdStatus,
+				c.IdTipo,
+				c.Descricao,	
 				c.NumeroChamado,			
 				cri.Nome AS NomeCriticidade,
-				ts.Nome AS NomeTipoStatus
+				ts.Nome AS NomeTipoStatus,
+				c.DescricaoMotivoCancel
 			FROM Chamado c WITH(NOLOCK)
 				INNER JOIN TipoCriticidade cri WITH(NOLOCK)
 					ON cri.Id = c.IdCriticidade 
 				INNER JOIN ChamadoTipoStatus ts WITH(NOLOCK)
 					ON ts.Id = c.IdStatus				
-			WHERE c.NumeroChamado = @NumeroChamado
+			WHERE c.Id = @Id
 
 	END
 GO
@@ -95,7 +104,8 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamados]
 				ccad.Nome AS NomeClienteCad,
 				c.NomeProblema AS NomeProblema,
 				cri.Nome AS NomeCriticidade,
-				ts.Nome AS NomeTipoStatus
+				ts.Nome AS NomeTipoStatus,
+				c.DescricaoMotivoCancel
 			FROM Chamado c WITH(NOLOCK)
 				INNER JOIN TipoCriticidade cri WITH(NOLOCK)
 					ON cri.Id = c.IdCriticidade 
@@ -118,7 +128,7 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_UpdC
 GO
 
 CREATE PROCEDURE [dbo].[GKSSP_UpdChamado]
-	@NumeroChamado			int,
+	@Id						int,
 	@NomeProblema			varchar(50), 
 	@Descricao				varchar(500),
 	@IdCriticidade			tinyint,
@@ -134,7 +144,7 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdChamado]
 	Objetivo..........: Atualizar dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_UpdChamado] 1, 'Erro cadastrar lote', 'Quando clicado no botao salvar a tela fecha', 3, 1, 1, 1
+	Ex................: EXEC [dbo].[GKSSP_UpdChamado] 1, 'Erro cadastrar lote', 'Quando clicado no botao salvar a tela fecha', 3, 1, 7, 1
 
 	*/
 
@@ -148,6 +158,6 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdChamado]
 				IdStatus = @IdStatus,
 				IdClienteAlt = @IdClienteAlt,
 				DataAlteracao = GETDATE()
-			WHERE NumeroChamado = @NumeroChamado
+			WHERE Id = @Id
 	END
 GO				

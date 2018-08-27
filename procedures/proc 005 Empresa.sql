@@ -19,7 +19,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsEmpresa]
 	Objetivo..........: Inserir dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsEmpresa] 12345678998745, 1, 1, 'Momentum&Cia', 'Momentum', 1
+	Ex................: EXEC [dbo].[GKSSP_InsEmpresa] 12345678998000, 1, 1, 'Magazine&Cia', 'MagazineLuiza', 1
 	
 	*/
 
@@ -83,6 +83,7 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_SelE
 GO
 
 CREATE PROCEDURE [dbo].[GKSSP_SelEmpresas]
+	@IdCliente int = NULL
 
 	AS
 
@@ -92,8 +93,8 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresas]
 	Objetivo..........: Buscar dados empresas
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelEmpresas]
-
+	Ex................: EXEC [dbo].[GKSSP_SelEmpresas] 1
+	
 	*/
 	
 	BEGIN
@@ -105,12 +106,16 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresas]
 			   ee.Cidade,
 			   ee.Uf,
 			   t.DDD,
-			   t.Numero
+			   t.Numero,
+			   cl.Nome
 			FROM Empresa em WITH(NOLOCK)
 				INNER JOIN Endereco ee WITH(NOLOCK)
 					ON ee.Id = em.IdEnderecoPrincipal
 				INNER JOIN Telefone t WITH(NOLOCK)
 					ON t.Id = em.IdTelefonePrincipal
+				LEFT JOIN Cliente cl WITH(NOLOCK)
+					ON cl.IdEmpresa = em.Id
+			WHERE (@IdCliente IS NULL OR cl.Id = @IdCliente)
 
 	END
 GO

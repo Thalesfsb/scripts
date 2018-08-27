@@ -20,5 +20,6 @@
 		INSERT INTO ChamadoTipoStatus (Id, Nome) VALUES (4, 'Pendente de publicação produção')
 		INSERT INTO ChamadoTipoStatus (Id, Nome) VALUES (5, 'Publicado produção')
 		INSERT INTO ChamadoTipoStatus (Id, Nome) VALUES (6, 'Concluído')
+		INSERT INTO ChamadoTipoStatus (Id, Nome) VALUES (7, 'Cancelado')
 
 	COMMIT

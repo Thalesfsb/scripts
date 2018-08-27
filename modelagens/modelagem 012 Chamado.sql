@@ -18,6 +18,7 @@
 			DataCadastro			dateTime not null,
 			IdClienteAlt			int,		 
 			DataAlteracao			dateTime,
+			DescricaoMotivoCancel	varchar(100)
 		)		
 
 		ALTER TABLE Chamado ADD CONSTRAINT PK_Chamado
