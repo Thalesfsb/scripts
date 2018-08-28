@@ -20,7 +20,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsChamado]
 	Objetivo..........: Inserir dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsChamado] 1, 'Erro cadastrar lote', 'Quando clicado no botao salvar a tela fecha', 1, 1, 1, 1
+	Ex................: EXEC [dbo].[GKSSP_InsChamado] 3, 'Erro cadastrar lote', 'Quando clicado no botao salvar a tela fecha', 1, 1, 1, 3
 	
 	*/
 
@@ -49,7 +49,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamado]
 	Objetivo..........: Buscar os dados de um chamado
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelChamado]  1
+	Ex................: EXEC [dbo].[GKSSP_SelChamado]  7
 
 	*/
 
@@ -80,9 +80,7 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_SelC
 GO
 
 CREATE PROCEDURE [dbo].[GKSSP_SelChamados]
-	@IdEmpresa	int = null,
-	@IdStatus	tinyint = null,
-	@idCliente	int = null
+	@IdEmpresa	int = null
 
 	AS
 
@@ -92,8 +90,8 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamados]
 	Objetivo..........: Buscar chamados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelChamados]
-
+	Ex................: EXEC [dbo].[GKSSP_SelChamados] 
+	
 	*/
 
 	BEGIN
@@ -118,8 +116,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamados]
 				INNER JOIN Empresa em WITH(NOLOCK)
 					ON em.Id = ccad.IdEmpresa
 			WHERE (@IdEmpresa IS NULL OR ccad.IdEmpresa = @IdEmpresa) 
-				AND (@IdStatus IS NULL OR c.IdStatus = @IdStatus)
-				AND (@idCliente IS NULL OR c.IdClienteCad = @idCliente)
+
 	END
 GO
 						
@@ -141,7 +138,7 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdChamado]
 	/*
 	Documentação
 	Arquivo Fonte.....: Chamado.sql
-	Objetivo..........: Atualizar dados
+	Objetivo..........: Atualizar dados do chamado
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
 	Ex................: EXEC [dbo].[GKSSP_UpdChamado] 1, 'Erro cadastrar lote', 'Quando clicado no botao salvar a tela fecha', 3, 1, 7, 1
@@ -161,3 +158,35 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdChamado]
 			WHERE Id = @Id
 	END
 GO				
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_UpdChamadoStatus]') AND objectproperty(id, N'IsPROCEDURE')=1)
+	DROP PROCEDURE [dbo].[GKSSP_UpdChamadoStatus]
+GO
+
+CREATE PROCEDURE [dbo].[GKSSP_UpdChamadoStatus]
+	@IdChamado				int,
+	@IdStatus				int,
+	@DescricaoMotivoCancel  varchar(100)
+
+	AS
+
+	/*
+	Documentação
+	Arquivo Fonte.....: Chamado.sql
+	Objetivo..........: Atualizar status de chamado
+	Autor.............: SMN - Thales Silveira
+ 	Data..............: 28/08/2018
+	Ex................: EXEC [dbo].[GKSSP__UpdChamadoStatus]
+
+	*/
+
+	BEGIN
+	
+		UPDATE Chamado 
+			SET IdStatus = @IdStatus,
+				DescricaoMotivoCancel = @DescricaoMotivoCancel
+			WHERE Id = @IdChamado
+
+	END
+GO
+				

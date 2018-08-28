@@ -17,8 +17,8 @@ CREATE PROCEDURE [dbo].[GKSSP_InsChamadoHistoricoStatus]
 	Objetivo..........: Inserir dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsChamadoHistoricoStatus] 1, 2, 1, null
-
+	Ex................: EXEC [dbo].[GKSSP_InsChamadoHistoricoStatus] 2, 2, 1, null
+	
 	*/
 
 	BEGIN
@@ -44,15 +44,18 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamadoHistoricoStatus]
 	Objetivo..........: Selecionar historico chamado
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelChamadoHistoricoStatus] 1
-
+	Ex................: EXEC [dbo].[GKSSP_SelChamadoHistoricoStatus] 2
+	
 	*/
 
 	BEGIN
 	
 		SELECT 	chs.Id,
-				chs.DataCadastro,
+				chs.IdChamado,
 				chs.IdStatus,
+				chs.IdCliente,
+				chs.IdColaborador,
+				chs.DataCadastro,				
 				ts.Nome AS NomeStatus,
 				col.Nome AS NomeColaborador,
 				cl.Nome AS NomeCliente
@@ -66,33 +69,6 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamadoHistoricoStatus]
 			WHERE chs.IdChamado = @IdChamado
 
 	END
-GO			
-
-IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_UpdChamadoHistoricoStatus]') AND objectproperty(id, N'IsPROCEDURE')=1)
-	DROP PROCEDURE [dbo].[GKSSP_UpdChamadoHistoricoStatus]
 GO
 
-CREATE PROCEDURE [dbo].[GKSSP_UpdChamadoHistoricoStatus]
-	@IdChamado int,
-	@IdStatus  int
-
-	AS
-
-	/*
-	Documentação
-	Arquivo Fonte.....: ChamadoHistoricoStatus.sql
-	Objetivo..........: Inativar chamado
-	Autor.............: SMN - Thales Silveira
- 	Data..............: 27/08/2018
-	Ex................: EXEC [dbo].[GKSSP_UpdChamadoHistoricoStatus] 1, 1
-
-	*/
-
-	BEGIN
-	
-		UPDATE ChamadoHistoricoStatus
-			SET IdStatus = @IdStatus
-			WHERE Id = @IdChamado
-
-	END
-GO
+			

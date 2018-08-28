@@ -93,24 +93,30 @@ CREATE PROCEDURE [dbo].[GKSSP_SelEmpresas]
 	Objetivo..........: Buscar dados empresas
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelEmpresas] 1
+	Ex................: EXEC [dbo].[GKSSP_SelEmpresas]
 	
 	*/
 	
 	BEGIN
-	
-		SELECT em.NomeFantasia,
-			   ee.Nom_Endereco,
-			   ee.Num_Endereco,
-			   ee.Bairro,
-			   ee.Cidade,
-			   ee.Uf,
-			   t.DDD,
-			   t.Numero,
-			   cl.Nome
+							
+		SELECT em.Id AS Id,	
+			   em.Cnpj AS Cnpj,
+			   em.RazaoSocial AS RazaoSocial,
+			   em.NomeFantasia AS NomeFantasia,
+			   em.DataInativacao AS DataInativacao,
+			   t.DDD as Ddd,
+			   t.Numero AS Numero,
+			   e.Cep AS Cep,
+			   e.Nom_Endereco AS NomEndereco,
+			   e.Num_Endereco AS NumEndereco,
+			   e.Bairro AS Bairro,
+			   e.Cidade AS Cidade,
+			   e.Uf AS Uf,
+			   e.Complemento AS Complemento,			  
+			   cl.Nome AS NomCliente
 			FROM Empresa em WITH(NOLOCK)
-				INNER JOIN Endereco ee WITH(NOLOCK)
-					ON ee.Id = em.IdEnderecoPrincipal
+				INNER JOIN Endereco e WITH(NOLOCK)
+					ON e.Id = em.IdEnderecoPrincipal
 				INNER JOIN Telefone t WITH(NOLOCK)
 					ON t.Id = em.IdTelefonePrincipal
 				LEFT JOIN Cliente cl WITH(NOLOCK)

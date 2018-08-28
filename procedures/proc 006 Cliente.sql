@@ -17,7 +17,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsCliente]
 	Objetivo..........: Inserir dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 14/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsCliente] 23065241221, 'Edgar', 2, 1
+	Ex................: EXEC [dbo].[GKSSP_InsCliente] 11826065636, 'Maria Luiza', 3, 1
 	
 	*/
 

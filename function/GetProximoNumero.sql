@@ -1,8 +1,8 @@
-IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSFNC_GetProximoNumero]') AND objectproperty(id, N'IsScalarFunction')=1)
-	DROP FUNCTION [dbo].[GKSFNC_GetProximoNumero]
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSFNC_GetProximoNumeroChamado]') AND objectproperty(id, N'IsScalarFunction')=1)
+	DROP FUNCTION [dbo].[GKSFNC_GetProximoNumeroChamado]
 GO 
 
-CREATE FUNCTION [dbo].[GKSFNC_GetProximoNumero]
+CREATE FUNCTION [dbo].[GKSFNC_GetProximoNumeroChamado]
 	(@IdEmpresa tinyint)
 
 	RETURNS int
@@ -14,7 +14,7 @@ CREATE FUNCTION [dbo].[GKSFNC_GetProximoNumero]
 		Objetivo............: Seleciona o último registro do chamado, pega o número e gera um novo número de chamado
 		Autor...............: SMN - Thales Silveira
  		Data................: 24/08/2018
-		Exemplo.............: SELECT [dbo].[GKSFNC_GetProximoNumero] (2)
+		Exemplo.............: SELECT [dbo].[GKSFNC_GetProximoNumeroChamado] (2)
 		select * from chamado
 	*/
 	
