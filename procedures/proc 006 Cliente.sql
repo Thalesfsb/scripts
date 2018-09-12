@@ -50,7 +50,8 @@ CREATE PROCEDURE [dbo].[GKSSP_SelCliente]
 
 	BEGIN
 		
-		SELECT 	cl.Cpf,
+		SELECT 	cl.Id,
+				cl.Cpf,
 				em.RazaoSocial AS NomeEmpresa,
 				cl.Nome,
 				cl.DataCadastro,

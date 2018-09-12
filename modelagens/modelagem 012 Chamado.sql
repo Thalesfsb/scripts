@@ -15,10 +15,11 @@
 			IdTipo					tinyint not null,
 			IdStatus				tinyint not null,
 			IdClienteCad			int not null, 
+			IdColaboradorPrincipal	int,
 			DataCadastro			dateTime not null,
 			IdClienteAlt			int,		 
 			DataAlteracao			dateTime,
-			DescricaoMotivoCancel	varchar(100)
+			DescricaoMotivoCancel	varchar(300)
 		)		
 
 		ALTER TABLE Chamado ADD CONSTRAINT PK_Chamado
@@ -26,6 +27,9 @@
 
 		ALTER TABLE Chamado ADD CONSTRAINT FK_Chamado_TiposCriticidade
 		FOREIGN KEY (IdCriticidade) REFERENCES TipoCriticidade(Id)
+		
+		ALTER TABLE Chamado ADD CONSTRAINT FK_Chamado_Colaborador
+		FOREIGN KEY (IdColaboradorPrincipal) REFERENCES Colaborador(Id)
 
 		ALTER TABLE Chamado ADD CONSTRAINT FK_Chamado_ChamadoTipo
 		FOREIGN KEY (IdTipo) REFERENCES ChamadoTipo(Id)
@@ -40,3 +44,6 @@
 		FOREIGN KEY (IdClienteAlt) REFERENCES Cliente(Id)
 
 	COMMIT
+
+
+	

@@ -20,7 +20,7 @@ CREATE PROCEDURE [dbo].[GKSSP_InsChamado]
 	Objetivo..........: Inserir dados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_InsChamado] 3, 'Erro cadastrar lote', 'Quando clicado no botao salvar a tela fecha', 1, 1, 1, 3
+	Ex................: EXEC [dbo].[GKSSP_InsChamado] 3, 'Erro cadastrar lote', 'Quando clicado no botao salvar a tela fecha', 1, 1, 1, 1
 	
 	*/
 
@@ -49,27 +49,27 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamado]
 	Objetivo..........: Buscar os dados de um chamado
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelChamado]  7
+	Ex................: EXEC [dbo].[GKSSP_SelChamado]  4
 
 	*/
 
 	BEGIN
 		SELECT  c.Id,
-				c.IdClienteAlt,
-				c.IdClienteCad,
-				c.IdCriticidade,
 				c.IdStatus,
+				c.NomeProblema,				
 				c.IdTipo,
-				c.Descricao,	
-				c.NumeroChamado,			
-				cri.Nome AS NomeCriticidade,
-				ts.Nome AS NomeTipoStatus,
-				c.DescricaoMotivoCancel
+				c.NumeroChamado,
+				c.IdCriticidade,
+				c.Descricao,
+				cri.Nome as NomeCriticidade,
+				cl.Nome as NomeClienteCad
 			FROM Chamado c WITH(NOLOCK)
 				INNER JOIN TipoCriticidade cri WITH(NOLOCK)
 					ON cri.Id = c.IdCriticidade 
 				INNER JOIN ChamadoTipoStatus ts WITH(NOLOCK)
-					ON ts.Id = c.IdStatus				
+					ON ts.Id = c.IdStatus	
+				INNER JOIN Cliente cl WITH(NOLOCK)
+					ON cl.Id = c.IdClienteCad
 			WHERE c.Id = @Id
 
 	END
@@ -90,20 +90,22 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamados]
 	Objetivo..........: Buscar chamados
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_SelChamados] 
-	
+	Ex................: EXEC [dbo].[GKSSP_SelChamados] 2
+
 	*/
 
 	BEGIN
 	
-		SELECT  c.Id, 
+		SELECT  c.Id,	
+				em.Id,
+				c.IdStatus,
 				c.NumeroChamado,
 				em.RazaoSocial AS NomeEmpresa,
 				ccad.Nome AS NomeClienteCad,
 				c.NomeProblema AS NomeProblema,
 				cri.Nome AS NomeCriticidade,
 				ts.Nome AS NomeTipoStatus,
-				c.DescricaoMotivoCancel
+				c.DataCadastro
 			FROM Chamado c WITH(NOLOCK)
 				INNER JOIN TipoCriticidade cri WITH(NOLOCK)
 					ON cri.Id = c.IdCriticidade 
@@ -116,6 +118,7 @@ CREATE PROCEDURE [dbo].[GKSSP_SelChamados]
 				INNER JOIN Empresa em WITH(NOLOCK)
 					ON em.Id = ccad.IdEmpresa
 			WHERE (@IdEmpresa IS NULL OR ccad.IdEmpresa = @IdEmpresa) 
+			ORDER BY c.IdStatus ASC
 
 	END
 GO
@@ -125,7 +128,7 @@ IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'[dbo].[GKSSP_UpdC
 GO
 
 CREATE PROCEDURE [dbo].[GKSSP_UpdChamado]
-	@Id						int,
+	@Id						int,           
 	@NomeProblema			varchar(50), 
 	@Descricao				varchar(500),
 	@IdCriticidade			tinyint,
@@ -141,7 +144,7 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdChamado]
 	Objetivo..........: Atualizar dados do chamado
 	Autor.............: SMN - Thales Silveira
  	Data..............: 15/08/2018
-	Ex................: EXEC [dbo].[GKSSP_UpdChamado] 1, 'Erro cadastrar lote', 'Quando clicado no botao salvar a tela fecha', 3, 1, 7, 1
+	Ex................: EXEC [dbo].[GKSSP_UpdChamado] 4, 'Erro cadastrar lote', 'Quando clicado no botao salvar a tela fecha', 3, 1, 1, 1
 
 	*/
 
@@ -166,7 +169,7 @@ GO
 CREATE PROCEDURE [dbo].[GKSSP_UpdChamadoStatus]
 	@IdChamado				int,
 	@IdStatus				int,
-	@DescricaoMotivoCancel  varchar(100)
+	@DescricaoMotivoCancel  varchar(100) = NULL
 
 	AS
 
@@ -184,9 +187,11 @@ CREATE PROCEDURE [dbo].[GKSSP_UpdChamadoStatus]
 	
 		UPDATE Chamado 
 			SET IdStatus = @IdStatus,
-				DescricaoMotivoCancel = @DescricaoMotivoCancel
+				DescricaoMotivoCancel = ISNULL(@DescricaoMotivoCancel, DescricaoMotivoCancel)
 			WHERE Id = @IdChamado
 
 	END
 GO
-				
+	
+
+			
